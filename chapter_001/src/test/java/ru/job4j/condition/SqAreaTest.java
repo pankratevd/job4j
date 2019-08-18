@@ -1,21 +1,27 @@
 package ru.job4j.condition;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-public class SqAreaTest {
-    @Test
-    public void square() {
-        int inP = 4;
-        int inK = 1;
-        int expected = 1;
-        int out = SqArea.square(inP, inK);
-        Assert.assertEquals(expected, out);
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
-        inP = 6;
-        inK = 2;
-        expected = 2;
-        out = SqArea.square(inP, inK);
-        Assert.assertEquals(expected, out);
+public class SqAreaTest {
+
+    @Test
+    public void whenp4k1s1() {
+        int k = 1;
+        int p = 4;
+        int expected = 1;
+        int s = SqArea.square(p, k);
+        assertThat(s, is(expected));
+    }
+
+    @Test
+    public void whenp6k2s2() {
+        int k = 2;
+        int p = 6;
+        int expected = 2;
+        int s = SqArea.square(p, k);
+        assertThat(s, is(expected));
     }
 }
