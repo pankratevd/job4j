@@ -34,5 +34,23 @@ public class FindLoopTest {
         int expect = 3;
         assertThat(result, is(expect));
     }
+    @Test
+    public void whenArrayHas7Then3StrartIndex2EndIndex3() {
+        FindLoop find = new FindLoop();
+        int[] input = new int[] {5, 10, 3, 7};
+        int value = 7;
+        int result = find.indexOf(input, value, 2, 3);
+        int expect = 3;
+        assertThat(result, is(expect));
+    }
+    @Test
+    public void whenArrayHas7ThenNoneStartIndex0EndIndex2() {
+        FindLoop find = new FindLoop();
+        int[] input = new int[] {5, 10, 3, 7};
+        int value = 7;
+        int result = find.indexOf(input, value, 0, 2);
+        int expect = -1;
+        assertThat(result, is(expect));
+    }
 
 }
