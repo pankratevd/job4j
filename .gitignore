@@ -25,3 +25,5 @@ hs_err_pid*
 .idea
 target
 
+/chapter_001/chapter_001.iml
+/puzzle/puzzle.iml
