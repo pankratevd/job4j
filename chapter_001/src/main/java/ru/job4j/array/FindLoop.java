@@ -11,6 +11,7 @@ public class FindLoop {
         }
         return rst;
     }
+
     public int indexOf(int[] data, int el, int start, int finish) {
         int rst = -1; // если элемента нет в массиве, то возвращаем -1.
         for (int index = start; index <= finish; index++) {
@@ -21,17 +22,18 @@ public class FindLoop {
         }
         return rst;
     }
+
     public int[] sort(int[] data) {
         int min = 0;
         //int indexMin=0;
-        for (int i = 0; i < data.length-1; i++) {
+        for (int i = 0; i < data.length - 1; i++) {
             min = data[i];
-            for (int j = i+1; j < data.length; j++) {
-                if (min>data[j]) {
+            for (int j = i + 1; j < data.length; j++) {
+                if (min > data[j]) {
                     min = data[j];
                 }
             }
-            int indexMin = indexOf(data, min, i, data.length-1);
+            int indexMin = indexOf(data, min, i, data.length - 1);
             if (indexMin != i) {
                 int tmp = data[i];
                 data[i] = min;

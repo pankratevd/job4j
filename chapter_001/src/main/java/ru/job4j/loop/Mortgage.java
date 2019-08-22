@@ -6,8 +6,8 @@ public class Mortgage {
         int year = 0;
         while (amount > 0) {
             year++;
-            double amountWithPercent = amount*(1+percent/100);
-            amount = (int)amountWithPercent-monthly*12;
+            double amountWithPercent = amount * (1 + percent / 100);
+            amount = (int) amountWithPercent - monthly * 12;
         }
         return year;
     }

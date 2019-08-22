@@ -8,10 +8,10 @@ import static org.junit.Assert.assertThat;
 public class ArrayDuplicateTest {
     @Test
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
-       ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
-       String[] str = {"1", "2", "1", "2", "3", "3", "2"};
-       String[] expected = {"1", "2", "3"};
-       assertThat(arrayDuplicate.remove(str), is(expected));
+        ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
+        String[] str = {"1", "2", "1", "2", "3", "3", "2"};
+        String[] expected = {"1", "2", "3"};
+        assertThat(arrayDuplicate.remove(str), is(expected));
     }
 
     @Test

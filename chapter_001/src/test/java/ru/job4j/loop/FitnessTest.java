@@ -26,6 +26,7 @@ public class FitnessTest {
         int days = fit.calc(50, 90);
         assertThat(days, is(2));
     }
+
     @Test
     public void whenIvanLessByFewNik1() {
         Fitness fit = new Fitness();

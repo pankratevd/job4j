@@ -15,7 +15,7 @@ public class Converter {
     }
 
     public static int dollarToRuble(int value) {
-        return value *60;
+        return value * 60;
     }
 
     public static void main(String[] args) {
@@ -42,8 +42,6 @@ public class Converter {
         int out4 = dollarToRuble(in4);
         boolean passed4 = expected4 == out4;
         System.out.println("3 dollars are 180 rubles. Test result : " + passed4);
-
-
 
 
     }
