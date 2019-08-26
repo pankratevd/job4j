@@ -6,8 +6,6 @@ public class Board {
         String ln = System.lineSeparator();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                // условие проверки, что писать пробел или X
-                // Выше в задании мы определили закономерность, когда нужно проставлять X
                 if ((i + j) % 2 == 0) {
                     screen.append("X");
                 } else {

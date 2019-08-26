@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 public class ArrayDuplicate {
     public String[] remove(String[] array) {
-        //Заменяем дубликаты на null, считаем количество - count
         int count = 0;
         for (int i = 0; i < array.length - 1; i++) {
             if (array[i] == null) {
@@ -18,7 +17,6 @@ public class ArrayDuplicate {
                 }
             }
         }
-        //Перемещаем все null в конец массива
         for (int i = array.length - 1; i >= 0; i--) {
             if (array[i] == null) {
                 for (int k = i; k < array.length - 1; k++) {
