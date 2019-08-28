@@ -8,6 +8,7 @@ public class MatrixCheck {
         for (int i = 0; i < data.length; i++) {
             if ((data[i][i]) != left || data[i][data.length - 1 - i] != right) {
                 result = false;
+                break;
             }
         }
         return result;
