@@ -7,12 +7,10 @@ public class Max {
     }
 
     public int max(int first, int second, int third) {
-        int result = third >= max(first, second) ? third : max(first, second);
-        return result;
+        return this.max(third, this.max(first, second));
     }
 
     public int max(int first, int second, int third, int fourth) {
-        int result = fourth >= max(first, second, third) ? fourth : max(first, second, third);
-        return result;
+        return this.max(fourth, this.max(first, second, third));
     }
 }
