@@ -14,10 +14,9 @@ public class Tracker {
 
     public boolean replace(String id, Item item) {
         boolean result = false;
-        Item replaceable = this.findById(id);
-        if (replaceable != null) {
+        if (this.findById(id) != null) {
             for (int i = 0; i < position; i++) {
-                if (this.items[i].equals(replaceable)) {
+                if (id.equals(this.items[i].getId())) {
                     this.items[i] = item;
                     result = true;
                     break;
@@ -30,11 +29,11 @@ public class Tracker {
     public boolean delete(String id) {
         boolean result = false;
         int index = 0;
-        Item item = this.findById(id);
-        if (item != null) {
+        if (this.findById(id) != null) {
             for (int i = 0; i < position; i++) {
-                if (this.items[i].equals(item)) {
+                if (id.equals(this.items[i].getId())) {
                     index = i;
+                    break;
                 }
             }
             if (index == items.length - 1) {
