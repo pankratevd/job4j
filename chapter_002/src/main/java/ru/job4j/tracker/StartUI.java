@@ -31,17 +31,7 @@ public class StartUI {
                 this.printItems(this.tracker.findAll());
 
             } else if (REPLACE.equals(answer)) {
-                String id = this.input.ask("Введите ID");
-                Item item = this.tracker.findById(id);
-                if (item != null) {
-                    String name = this.input.ask("Введите имя заявки :");
-                    String desc = this.input.ask("Введите описание заявки :");
-                    item.setName(name);
-                    item.setDesc(desc);
-                    this.tracker.replace(id, item);
-                } else {
-                    System.out.println("Заявка с ID " + id + " не найдена");
-                }
+                this.replaceItem();
 
             } else if (DELETE.equals(answer)) {
                 String id = this.input.ask("Введите ID:");
@@ -89,6 +79,20 @@ public class StartUI {
         }
     }
 
+    private void replaceItem() {
+        String id = this.input.ask("Введите ID");
+        Item item = this.tracker.findById(id);
+        if (item != null) {
+            String name = this.input.ask("Введите имя заявки :");
+            String desc = this.input.ask("Введите описание заявки :");
+            item.setName(name);
+            item.setDesc(desc);
+            this.tracker.replace(id, item);
+        } else {
+            System.out.println("Заявка с ID " + id + " не найдена");
+        }
+    }
+
     private void showMenu() {
         System.out.println("Меню.");
         System.out.println("0. Добавить новую заявку");
@@ -107,7 +111,6 @@ public class StartUI {
      */
     public static void main(String[] args) {
         new StartUI(new ConsoleInput(), new Tracker()).init();
-
     }
 
 }
