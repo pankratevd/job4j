@@ -1,10 +1,6 @@
 package ru.job4j.tracker;
 
-import com.sun.prism.shader.Texture_LinearGradient_REFLECT_AlphaTest_Loader;
 import org.junit.Test;
-
-import java.util.Arrays;
-
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
