@@ -32,15 +32,15 @@ public class StartUITest {
     }
 
     @Test
-    public void deleteTask() {
-        // создаём Tracker
+    public void whenDeleteFirstTaskTrackerHasOnlySecond() {
         Tracker tracker = new Tracker();
-        //Напрямую добавляем заявку
-        //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"0", "task 1", "desc 1", tracker.findByName("task 1")[0].getId(),  "6"});
-        // создаём StartUI и вызываем метод init()
+        Item item1 = tracker.add(new Item("task 1", "desc 1"));
+        tracker.add(new Item("task 2", "desc 2"));
+        assertThat(tracker.findAll().length, is(2));
+        Input input = new StubInput(new String[]{"3", item1.getId(),  "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is(""));
+        assertThat(tracker.findAll().length, is(1));
+        assertThat(tracker.findAll()[0].getName(), is("task 2"));
     }
 
 }
