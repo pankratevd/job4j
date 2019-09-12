@@ -16,14 +16,19 @@ public class StartUITest {
     String ls = System.lineSeparator();
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final String menu = "Меню.\n0. Добавить новую задачу\n1. Показать все заявки\n2. Редактировать заявку\n3. Удалить заявку\n4. Найти по ID заявки\n5. Найти по имени заявки\n6. Выход\n";
+    //private final String menu = "Меню.\r\n0. Добавить новую заявку\r\n1. Показать все заявки\r\n2. Редактировать заявку\r\n3. Удалить заявку\r\n4. Найти по ID заявки\r\n5. Найти по имени заявки\r\n6. Выход\r\n";
 
-
-    private void printItems(Item[] items) {
-        for (Item item : items) {
-            System.out.println("id: " + item.getId() + " name: " + item.getName() + " описание: " + item.getDesc());
-        }
+    private String menu() {
+        StringBuilder str = new StringBuilder();
+        str.append("Меню.")
+                .append(ls)
+                .append("0. Добавить новую заявку").append(ls)
+                .append("0. Добавить новую заявку")
+                .append(ls)
+                .toString();
+        return str.toString();
     }
+
 
     @Before
     public void loadOutput() {
@@ -77,14 +82,15 @@ public class StartUITest {
         tracker.add(item1);
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker).init();
-        assertThat(out, is(
+        assertThat(out.toString(), is(
                 new StringBuilder()
-                        .append(menu)
-                        .append("список всех заявок:\n")
+                        .append(menu())
+                        .append("список всех заявок:")
+                        .append(ls)
                         .append("id: ")
                         .append(item1.getId())
-                        .append(" name: task 1 описание: desc 1\n")
-                        .append(menu)));
+                        .append(" name: task 1 описание: desc 1\r\n")
+                        .append(menu()).toString()));
     }
 
 }
