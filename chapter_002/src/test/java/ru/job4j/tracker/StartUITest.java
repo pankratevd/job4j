@@ -13,22 +13,30 @@ import java.io.PrintStream;
 
 
 public class StartUITest {
-    String ls = System.lineSeparator();
+    private String ls = System.lineSeparator();
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    //private final String menu = "Меню.\r\n0. Добавить новую заявку\r\n1. Показать все заявки\r\n2. Редактировать заявку\r\n3. Удалить заявку\r\n4. Найти по ID заявки\r\n5. Найти по имени заявки\r\n6. Выход\r\n";
 
     private String menu() {
-        StringBuilder str = new StringBuilder();
-        str.append("Меню.")
+        return new StringBuilder()
+                .append("Меню.")
                 .append(ls)
-                .append("0. Добавить новую заявку").append(ls)
                 .append("0. Добавить новую заявку")
                 .append(ls)
+                .append("1. Показать все заявки")
+                .append(ls)
+                .append("2. Редактировать заявку")
+                .append(ls)
+                .append("3. Удалить заявку")
+                .append(ls)
+                .append("4. Найти по ID заявки")
+                .append(ls)
+                .append("5. Найти по имени заявки")
+                .append(ls)
+                .append("6. Выход")
+                .append(ls)
                 .toString();
-        return str.toString();
     }
-
 
     @Before
     public void loadOutput() {
@@ -76,7 +84,7 @@ public class StartUITest {
     }
 
     @Test
-    public void showAllItems() {
+    public void whenShowAllItems() {
         Tracker tracker = new Tracker();
         Item item1 = new Item("task 1", "desc 1");
         tracker.add(item1);
@@ -89,8 +97,57 @@ public class StartUITest {
                         .append(ls)
                         .append("id: ")
                         .append(item1.getId())
-                        .append(" name: task 1 описание: desc 1\r\n")
+                        .append(" name: task 1 описание: desc 1")
+                        .append(ls)
                         .append(menu()).toString()));
     }
 
+    @Test
+    public void whenFindByID() {
+        Tracker tracker = new Tracker();
+        Item item1 = new Item("task 1", "desc 1");
+        Item item2 = new Item("task 2", "desc 2");
+        Item item3 = new Item("task 3", "desc 3");
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+        Input input = new StubInput(new String[]{"4", item2.getId(), "6"});
+        new StartUI(input, tracker).init();
+        assertThat(out.toString(), is(
+                new StringBuilder()
+                        .append(menu())
+                        .append("id: ")
+                        .append(item2.getId())
+                        .append(" name: task 2 описание: desc 2")
+                        .append(ls)
+                        .append(menu()).toString())
+        );
+    }
+
+    @Test
+    public void whenFindByName() {
+        Tracker tracker = new Tracker();
+        Item item1 = new Item("task 1", "desc 1");
+        Item item2 = new Item("task 1", "desc 2");
+        Item item3 = new Item("task 3", "desc 3");
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+        Input input = new StubInput(new String[]{"5", item2.getName(), "6"});
+        new StartUI(input, tracker).init();
+        assertThat(out.toString(), is(
+                new StringBuilder()
+                        .append(menu())
+                        .append("id: ")
+                        .append(item1.getId())
+                        .append(" name: task 1 описание: desc 1")
+                        .append(ls)
+                        .append("id: ")
+                        .append(item2.getId())
+                        .append(" name: task 1 описание: desc 2")
+                        .append(ls)
+                        .append(menu()).toString())
+        );
+    }
 }
+
