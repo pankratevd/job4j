@@ -6,6 +6,7 @@ public class StartUI {
     private final Input input;
     private final Tracker tracker;
     private boolean working = true;
+    private int[] range = new int[]{0, 1, 2, 3, 4, 5, 6};
 
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
@@ -17,11 +18,11 @@ public class StartUI {
         menuTracker.fillActions();
         do {
             menuTracker.show();
-            int k = Integer.valueOf(input.ask("Выберите меню:"));
-            menuTracker.select(k);
+            menuTracker.select(input.ask("Выберите меню:", range));
         }
         while (working);
     }
+
     public void stop() {
         this.working = false;
     }
@@ -32,7 +33,7 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 
 }
