@@ -97,7 +97,7 @@ public class StartUITest {
                         .append(ls)
                         .append("id: ")
                         .append(item1.getId())
-                        .append(" name: task 1 описание: desc 1")
+                        .append(" имя: task 1 описание: desc 1")
                         .append(ls)
                         .append(menu()).toString()));
     }
@@ -118,7 +118,7 @@ public class StartUITest {
                         .append(menu())
                         .append("id: ")
                         .append(item2.getId())
-                        .append(" name: task 2 описание: desc 2")
+                        .append(" имя: task 2 описание: desc 2")
                         .append(ls)
                         .append(menu()).toString())
         );
@@ -140,11 +140,11 @@ public class StartUITest {
                         .append(menu())
                         .append("id: ")
                         .append(item1.getId())
-                        .append(" name: task 1 описание: desc 1")
+                        .append(" имя: task 1 описание: desc 1")
                         .append(ls)
                         .append("id: ")
                         .append(item2.getId())
-                        .append(" name: task 1 описание: desc 2")
+                        .append(" имя: task 1 описание: desc 2")
                         .append(ls)
                         .append(menu()).toString())
         );

@@ -22,16 +22,14 @@ public class UpdateItem implements UserAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         String id = input.ask("Введите ID");
-        Item item = tracker.findById(id);
-        if (item != null) {
-            String name = input.ask("Введите имя заявки :");
-            String desc = input.ask("Введите описание заявки :");
-            item.setName(name);
-            item.setDesc(desc);
-            tracker.replace(id, item);
+        String name = input.ask("Введите имя заявки :");
+        String desc = input.ask("Введите описание заявки :");
+        if (tracker.replace(id, new Item(name, desc))) {
+            System.out.printf("Заявка с ID %s обновлена%n", id);
         } else {
-            System.out.println("Заявка с ID " + id + " не найдена");
+            System.out.printf("Заявка с ID %s не найдена%n", id);
         }
+
     }
 
     @Override

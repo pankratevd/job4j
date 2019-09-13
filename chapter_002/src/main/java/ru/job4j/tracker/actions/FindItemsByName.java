@@ -1,20 +1,16 @@
 package ru.job4j.tracker.actions;
 
-import ru.job4j.tracker.Input;
-import ru.job4j.tracker.MenuTracker;
-import ru.job4j.tracker.Tracker;
-import ru.job4j.tracker.UserAction;
+import ru.job4j.tracker.*;
 
 
 public class FindItemsByName implements UserAction {
     int number;
     String description;
-    MenuTracker tracker;
+    //MenuTracker tracker;
 
-    public FindItemsByName(int number, String description, MenuTracker tracker) {
+    public FindItemsByName(int number, String description) {
         this.number = number;
         this.description = description;
-        this.tracker = tracker;
     }
 
     @Override
@@ -25,10 +21,8 @@ public class FindItemsByName implements UserAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         String name = input.ask("Введите имя заявки:");
-        if (tracker.findByName(name).length > 0) {
-            this.tracker.printItems(tracker.findByName(name));
-        } else {
-            System.out.println("Заявки с именем " + name + " не найдены.");
+        for (Item item : tracker.findByName(name)) {
+            System.out.println("id: " + item.getId() + " имя: " + item.getName() + " описание: " + item.getDesc());
         }
     }
 

@@ -1,19 +1,14 @@
 package ru.job4j.tracker.actions;
 
-import ru.job4j.tracker.Input;
-import ru.job4j.tracker.MenuTracker;
-import ru.job4j.tracker.Tracker;
-import ru.job4j.tracker.UserAction;
+import ru.job4j.tracker.*;
 
 public class ShowItems implements UserAction {
     int number;
     String description;
-    private MenuTracker tracker;
 
-    public ShowItems(int number, String description, MenuTracker tracker) {
+    public ShowItems(int number, String description) {
         this.number = number;
         this.description = description;
-        this.tracker = tracker;
     }
 
     @Override
@@ -24,7 +19,9 @@ public class ShowItems implements UserAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         System.out.println("список всех заявок:");
-        this.tracker.printItems(tracker.findAll());
+        for (Item item : tracker.findAll()) {
+            System.out.println("id: " + item.getId() + " имя: " + item.getName() + " описание: " + item.getDesc());
+        }
     }
 
     @Override

@@ -39,11 +39,11 @@ public class MenuTracker {
      */
     public void fillActions() {
         this.actions.add(new AddItem(0, "Добавить новую заявку"));
-        this.actions.add(new ShowItems(1, "Показать все заявки", this));
+        this.actions.add(new ShowItems(1, "Показать все заявки"));
         this.actions.add(new UpdateItem(2, "Редактировать заявку"));
         this.actions.add(new DeleteItem(3, "Удалить заявку"));
         this.actions.add(new FindItemById(4, "Найти по ID заявки"));
-        this.actions.add(new FindItemsByName(5, "Найти по имени заявки", this));
+        this.actions.add(new FindItemsByName(5, "Найти по имени заявки"));
         this.actions.add(new ExitProgram(6, "Выход", this.ui));
 
     }
@@ -71,7 +71,7 @@ public class MenuTracker {
 
     public void printItems(Item[] items) {
         for (Item item : items) {
-            System.out.println("id: " + item.getId() + " name: " + item.getName() + " описание: " + item.getDesc());
+            System.out.println("id: " + item.getId() + " имя: " + item.getName() + " описание: " + item.getDesc());
         }
     }
 
