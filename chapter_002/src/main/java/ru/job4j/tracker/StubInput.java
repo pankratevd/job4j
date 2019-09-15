@@ -5,7 +5,7 @@ public class StubInput implements Input {
     private int position = 0;
 
     public StubInput(String[] answers) {
-    this.answers = answers;
+        this.answers = answers;
     }
 
     @Override
@@ -15,7 +15,21 @@ public class StubInput implements Input {
 
     @Override
     public int ask(String question, int[] range) {
-       return Integer.valueOf(answers[position++]);
-       //throw new UnsupportedOperationException("Unsupported operation");
+        int key = Integer.valueOf(answers[position++]);
+        boolean exist = false;
+        for (int value : range) {
+            if (value == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Значение не в диапазоне меню.");
+        }
+
+        //return Integer.valueOf(answers[position++]);
+        //throw new UnsupportedOperationException("Unsupported operation");
     }
 }

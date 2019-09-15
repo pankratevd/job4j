@@ -28,13 +28,26 @@ public class ValidateInputTest {
     @Test
     public void whenInvalidInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"invalid", "6"})
+                new StubInput(new String[] {"invalid", "1", "6"})
         );
         input.ask("Enter", new int[] {1});
         assertThat(
                 this.mem.toString(),
                 is(
                         String.format("Введите коректные данные.%n")
+                )
+        );
+    }
+    @Test
+    public void whenWrongNumber() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"-1", "1", "6"})
+        );
+        input.ask("Enter", new int[] {1});
+        assertThat(
+                this.mem.toString(),
+                is(
+                        String.format("Введите значение из диапазона меню.%n")
                 )
         );
     }
