@@ -3,21 +3,13 @@ package ru.job4j.tracker.actions;
 import ru.job4j.tracker.Input;
 import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
-import ru.job4j.tracker.UserAction;
 
-public class FindItemById implements UserAction {
-    int number;
-    String description;
+public class FindItemById extends BaseAction {
 
     public FindItemById(int number, String description) {
-        this.number = number;
-        this.description = description;
+        super(number, description);
     }
 
-    @Override
-    public int key() {
-        return number;
-    }
 
     @Override
     public void execute(Input input, Tracker tracker) {
@@ -28,10 +20,5 @@ public class FindItemById implements UserAction {
         } else {
             System.out.println("Заявка с ID " + id + " не найдена");
         }
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), this.description);
     }
 }

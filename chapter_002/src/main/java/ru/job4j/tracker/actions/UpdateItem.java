@@ -5,18 +5,10 @@ import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
 import ru.job4j.tracker.UserAction;
 
-public class UpdateItem implements UserAction {
-    int number;
-    String description;
+public class UpdateItem extends BaseAction {
 
     public UpdateItem(int number, String description) {
-        this.number = number;
-        this.description = description;
-    }
-
-    @Override
-    public int key() {
-        return number;
+        super(number, description);
     }
 
     @Override
@@ -30,10 +22,5 @@ public class UpdateItem implements UserAction {
             System.out.printf("Заявка с ID %s не найдена%n", id);
         }
 
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), this.description);
     }
 }

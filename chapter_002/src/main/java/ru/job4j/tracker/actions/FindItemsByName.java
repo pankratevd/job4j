@@ -3,19 +3,10 @@ package ru.job4j.tracker.actions;
 import ru.job4j.tracker.*;
 
 
-public class FindItemsByName implements UserAction {
-    int number;
-    String description;
-    //MenuTracker tracker;
+public class FindItemsByName extends BaseAction {
 
     public FindItemsByName(int number, String description) {
-        this.number = number;
-        this.description = description;
-    }
-
-    @Override
-    public int key() {
-        return number;
+        super(number, description);
     }
 
     @Override
@@ -24,10 +15,5 @@ public class FindItemsByName implements UserAction {
         for (Item item : tracker.findByName(name)) {
             System.out.println("id: " + item.getId() + " имя: " + item.getName() + " описание: " + item.getDesc());
         }
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), this.description);
     }
 }
