@@ -29,14 +29,14 @@ public class BishopBlack implements Figure {
         }
         int size = Math.abs(source.x - dest.x);
         Cell[] steps = new Cell[size];
-        int signX = (dest.x - source.x) > 0 ? 1 : -1;
-        int signY = (dest.y - source.y) > 0 ? 1 : -1;
+        int deltaX = (dest.x - source.x) > 0 ? 1 : -1;
+        int deltaY = (dest.y - source.y) > 0 ? 1 : -1;
         int x = source.x;
         int y = source.y;
-        for (int index = 1; index <= size; index++) {
-            x = x + signX;
-            y = y + signY;
-            steps[index - 1] = Cell.values()[y + 8 * x];
+        for (int index = 0; index < size; index++) {
+            x = x + deltaX;
+            y = y + deltaY;
+            steps[index] = Cell.values()[y + 8 * x];
         }
         return steps;
     }

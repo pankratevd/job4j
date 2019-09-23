@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.chess;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

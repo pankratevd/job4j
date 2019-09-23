@@ -23,13 +23,26 @@ public class Logic {
 
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
+        boolean empty = true;
         int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+        try {
+            if (index != -1) {
+                Cell[] steps = this.figures[index].way(source, dest);
+
+                for (int i = 0; i < steps.length; i++) {
+                    if (this.findBy(steps[i]) != -1) {
+                        empty = false;
+                        break;
+                    }
+                }
+                if (empty && steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
             }
+        } catch (IllegalStateException ise) {
+            System.out.println(ise.toString());
+            rst = false;
         }
         return rst;
     }
