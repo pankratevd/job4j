@@ -69,7 +69,7 @@ public class MenuTracker {
         }
     }
 
-    public void printItems(Item[] items) {
+    public void printItems(ArrayList<Item> items) {
         for (Item item : items) {
             System.out.println("id: " + item.getId() + " имя: " + item.getName() + " описание: " + item.getDesc());
         }

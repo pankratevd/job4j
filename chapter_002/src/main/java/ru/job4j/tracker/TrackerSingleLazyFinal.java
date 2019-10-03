@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 public class TrackerSingleLazyFinal {
     Tracker tracker = new Tracker();
 
@@ -9,6 +11,7 @@ public class TrackerSingleLazyFinal {
     private static final class Holder {
         private static final TrackerSingleLazyFinal INSTANCE = new TrackerSingleLazyFinal();
     }
+
     public static TrackerSingleLazyFinal getInstance() {
         return Holder.INSTANCE;
     }
@@ -25,11 +28,11 @@ public class TrackerSingleLazyFinal {
         return tracker.delete(id);
     }
 
-    public Item[] findAll() {
+    public ArrayList<Item> findAll() {
         return tracker.findAll();
     }
 
-    public Item[] findByName(String key) {
+    public ArrayList<Item> findByName(String key) {
         return tracker.findByName(key);
     }
 

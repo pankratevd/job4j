@@ -1,10 +1,12 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+
 public class TrackerSingleEager {
     private static final TrackerSingleEager INSTANCE = new TrackerSingleEager();
     Tracker tracker = new Tracker();
 
-    private  TrackerSingleEager() {
+    private TrackerSingleEager() {
     }
 
     public static TrackerSingleEager getInstance() {
@@ -23,11 +25,11 @@ public class TrackerSingleEager {
         return tracker.delete(id);
     }
 
-    public Item[] findAll() {
+    public ArrayList<Item> findAll() {
         return tracker.findAll();
     }
 
-    public Item[] findByName(String key) {
+    public ArrayList<Item> findByName(String key) {
         return tracker.findByName(key);
     }
 

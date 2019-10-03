@@ -10,6 +10,6 @@ public class TrackerSingleEagerTest {
     public void checkSingleton() {
         TrackerSingleEager tracker = TrackerSingleEager.getInstance();
         TrackerSingleEager tracker2 = TrackerSingleEager.getInstance();
-        assertTrue(tracker ==tracker2);
+        assertTrue(tracker == tracker2);
     }
 }

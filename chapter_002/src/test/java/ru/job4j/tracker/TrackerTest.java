@@ -1,6 +1,9 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -77,7 +80,12 @@ public class TrackerTest {
         tracker.add(item3);
         tracker.add(item4);
         tracker.add(item5);
-        Item[] expected = {item1, item2, item3, item4, item5};
+        ArrayList<Item> expected = new ArrayList<>();
+        expected.add(item1);
+        expected.add(item2);
+        expected.add(item3);
+        expected.add(item4);
+        expected.add(item5);
         assertThat(tracker.findAll(), is(expected));
     }
 
@@ -90,7 +98,9 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] expected = {item1, item3};
+        ArrayList<Item> expected = new ArrayList<>();
+        expected.add(item1);
+        expected.add(item3);
         assertThat(expected, is(tracker.findByName("task1")));
     }
 
@@ -103,7 +113,7 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] expected = new Item[0];
+        ArrayList<Item> expected = new ArrayList<>();
         assertThat(expected, is(tracker.findByName("task3")));
     }
 
@@ -136,7 +146,7 @@ public class TrackerTest {
     @Test
     public void chainAllOperations() {
         Tracker tracker = new Tracker();
-        Item[] expected = new Item[0];
+        ArrayList<Item> expected = new ArrayList<>();
         assertThat(expected, is(tracker.findAll()));
 
         Item item1 = new Item("task1");
@@ -151,36 +161,62 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         tracker.replace(item2.getId(), item2Replaced);
-        Item[] expected10 = {item1, item2Replaced, item3};
+        ArrayList<Item> expected10 = new ArrayList<>();
+        expected10.add(item1);
+        expected10.add(item2Replaced);
+        expected10.add(item3);
         assertThat(tracker.findAll(), is(expected10));
 
         Item item4 = new Item("task4");
         tracker.add(item4);
-        Item[] expected20 = {item1, item2Replaced, item3, item4};
+        ArrayList<Item> expected20 = new ArrayList<>();
+        expected20.add(item1);
+        expected20.add(item2Replaced);
+        expected20.add(item3);
+        expected20.add(item4);
         assertThat(expected20, is(tracker.findAll()));
 
         tracker.delete(item3.getId());
-        Item[] expected2 = {item1, item2Replaced, item4};
+        ArrayList<Item> expected2 = new ArrayList<>();
+        expected2.add(item1);
+        expected2.add(item2Replaced);
+        expected2.add(item4);
         assertThat(expected2, is(tracker.findAll()));
 
         Item item1dublicate = new Item("task1");
         tracker.add(item1dublicate);
 
-        Item[] expected30 = {item1, item1dublicate};
+        ArrayList<Item> expected30 = new ArrayList<>();
+        expected30.add(item1);
+        expected30.add(item1dublicate);
         assertThat(expected30, is(tracker.findByName("task1")));
 
         Item item5 = new Item("task5");
         tracker.add(item5);
-        Item[] expected40 = {item1, item2Replaced, item4, item1dublicate, item5};
+        ArrayList<Item> expected40 = new ArrayList<>();
+        expected40.add(item1);
+        expected40.add(item2Replaced);
+        expected40.add(item4);
+        expected40.add(item1dublicate);
+        expected40.add(item5);
         assertThat(expected40, is(tracker.findAll()));
 
         tracker.delete(item5.getId());
-        Item[] expected50 = {item1, item2Replaced, item4, item1dublicate};
+        ArrayList<Item> expected50 = new ArrayList<>();
+        expected50.add(item1);
+        expected50.add(item2Replaced);
+        expected50.add(item4);
+        expected50.add(item1dublicate);
         assertThat(expected50, is(tracker.findAll()));
 
         Item item6 = new Item("task6");
         tracker.add(item6);
-        Item[] expected60 = {item1, item2Replaced, item4, item1dublicate, item6};
+        ArrayList<Item> expected60 = new ArrayList<>();
+        expected60.add(item1);
+        expected60.add(item2Replaced);
+        expected60.add(item4);
+        expected60.add(item1dublicate);
+        expected60.add(item6);
         assertThat(expected60, is(tracker.findAll()));
     }
 
