@@ -23,16 +23,13 @@ public class SortUser {
         resultList.sort(new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {
-                int result;
-                if (user1.getName().compareTo(user2.getName()) == 0) {
+                int result = user1.getName().compareTo(user2.getName());
+                if (result == 0) {
                     result = Integer.compare(user1.getAge(), user2.getAge());
-                } else {
-                    result = user1.getName().compareTo(user2.getName()) < 0 ? -1 : 1;
                 }
                 return result;
             }
         });
-
         return resultList;
     }
 }
