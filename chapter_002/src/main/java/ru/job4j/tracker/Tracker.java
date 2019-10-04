@@ -14,7 +14,7 @@ public class Tracker {
 
     public boolean replace(String id, Item item) {
         boolean result = false;
-        int index = this.items.indexOf(this.findById(id));
+        int index = this.getIndex(id);
         if (index != -1) {
             item.setId(id);
             items.set(index, item);
@@ -24,7 +24,14 @@ public class Tracker {
     }
 
     public boolean delete(String id) {
-        return items.remove(this.findById(id));
+        boolean result = false;
+        int index = this.getIndex(id);
+        if (index != -1) {
+            this.items.remove(index);
+            result = true;
+        }
+
+        return result;
     }
 
     public ArrayList<Item> findAll() {
@@ -55,5 +62,16 @@ public class Tracker {
     private String generateId() {
         Random rm = new Random();
         return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+    }
+
+    private int getIndex(String id) {
+        int result = -1;
+        for (int i = 0; i < this.items.size(); i++) {
+            if (id.equals(items.get(i).getId())) {
+                result = i;
+                break;
+            }
+        }
+        return result;
     }
 }
