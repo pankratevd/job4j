@@ -1,6 +1,5 @@
-# job4j
-# job4j
-Объединение зафиксированных изменений
-В курсе производилась работа с веткамы git
-Создание ветки из IDEA
-Изменено 27/08
+[![Build Status](https://travis-ci.org/pankratevd/job4j.svg?branch=master)](https://travis-ci.org/pankratevd/job4j)
+[![codecov](https://codecov.io/gh/pankratevd/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/pankratevd/job4j)
+
+#intern
+Проект java стажер
