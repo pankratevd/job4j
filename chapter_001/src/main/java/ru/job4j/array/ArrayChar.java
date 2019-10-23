@@ -18,4 +18,9 @@ public class ArrayChar {
         }
         return result;
     }
+
+    public static void main(String[] args) {
+        int[][] i = new int[3][3];
+        System.out.println(i.length);
+    }
 }
