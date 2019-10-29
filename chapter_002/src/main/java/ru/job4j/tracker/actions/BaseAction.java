@@ -2,13 +2,17 @@ package ru.job4j.tracker.actions;
 
 import ru.job4j.tracker.UserAction;
 
+import java.util.function.Consumer;
+
 public abstract class BaseAction implements UserAction {
     private final int number;
     private final String description;
+    final Consumer<String> output;
 
-    public BaseAction(final int number, final String description) {
+    public BaseAction(int number, String description, Consumer<String> output) {
         this.number = number;
         this.description = description;
+        this.output = output;
     }
 
     @Override

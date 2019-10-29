@@ -4,6 +4,7 @@ import ru.job4j.tracker.actions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class MenuTracker {
@@ -22,29 +23,33 @@ public class MenuTracker {
      */
     private List<UserAction> actions = new ArrayList<>();
 
+    private final Consumer<String> output;
+
     /**
      * Конструктор.
      *
      * @param input   объект типа Input
      * @param tracker объект типа Tracker
+     * @param output
      */
-    public MenuTracker(Input input, Tracker tracker, StartUI ui) {
+    public MenuTracker(Input input, Tracker tracker, StartUI ui, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.ui = ui;
+        this.output = output;
     }
 
     /**
      * Метод заполняет массив.
      */
     public void fillActions() {
-        this.actions.add(new AddItem(0, "Добавить новую заявку"));
-        this.actions.add(new ShowItems(1, "Показать все заявки"));
-        this.actions.add(new UpdateItem(2, "Редактировать заявку"));
-        this.actions.add(new DeleteItem(3, "Удалить заявку"));
-        this.actions.add(new FindItemById(4, "Найти по ID заявки"));
-        this.actions.add(new FindItemsByName(5, "Найти по имени заявки"));
-        this.actions.add(new ExitProgram(6, "Выход", this.ui));
+        this.actions.add(new AddItem(0, "Добавить новую заявку", output));
+        this.actions.add(new ShowItems(1, "Показать все заявки", output));
+        this.actions.add(new UpdateItem(2, "Редактировать заявку", output));
+        this.actions.add(new DeleteItem(3, "Удалить заявку", output));
+        this.actions.add(new FindItemById(4, "Найти по ID заявки", output));
+        this.actions.add(new FindItemsByName(5, "Найти по имени заявки", output));
+        this.actions.add(new ExitProgram(6, "Выход", this.ui, output));
 
     }
 
@@ -61,10 +66,10 @@ public class MenuTracker {
      * Метод выводит на экран меню.
      */
     public void show() {
-        System.out.println("Меню.");
+        output.accept("Меню.");
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                this.output.accept(action.info());
             }
         }
     }
