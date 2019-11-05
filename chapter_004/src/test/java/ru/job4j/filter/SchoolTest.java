@@ -2,9 +2,7 @@ package ru.job4j.filter;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -50,5 +48,27 @@ public class SchoolTest {
         List<Student> result = new School().collect(list, (s) -> (s.getScore() >= 70));
         List<Student> expected = new ArrayList<>(Arrays.asList(student2, student4));
         assertThat(result, is(expected));
+    }
+
+    @Test
+    public void convertToMap() {
+        Student s1 = new Student("Ivan", "Ivanov");
+        Student s2 = new Student("Petr", "Petrov");
+        Student s3 = new Student("Petr", "Ivanov");
+        Student s4 = new Student("Ivan", "Petrov");
+        List<Student> list = new ArrayList<>();
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+        list.add(s4);
+        Map<String, String> result = School.convertToMap(list);
+
+        Map<String, String> expected = new HashMap<>();
+        expected.put(s1.getSurname(), s1.getName());
+        expected.put(s2.getSurname(), s2.getName());
+
+        assertThat(result, is(expected));
+
+
     }
 }
