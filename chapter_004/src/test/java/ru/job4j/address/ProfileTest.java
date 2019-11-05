@@ -11,10 +11,10 @@ import static org.junit.Assert.assertThat;
 public class ProfileTest {
     @Test
     public void collect() {
-        Address a1 = new Address("City1", "Street1", 1, 1);
+        Address a1 = new Address("City2", "Street2", 2, 2);
         Address a2 = new Address("City2", "Street2", 2, 2);
         Address a3 = null;
-        Address a4 = new Address("City3", "Street3", 3, 3);
+        Address a4 = new Address("City1", "Street1", 1, 1);
         Address a5 = new Address("City4", "Street4", 4, 4);
         Address a6 = new Address("City5", "Street5", 5, 5);
 
@@ -34,9 +34,8 @@ public class ProfileTest {
         list.add(p6);
 
         List<Address> expected = new ArrayList<>();
-        expected.add(a1);
-        expected.add(a2);
         expected.add(a4);
+        expected.add(a1);
         expected.add(a5);
         expected.add(a6);
 
