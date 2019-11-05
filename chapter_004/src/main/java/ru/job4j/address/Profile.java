@@ -13,7 +13,8 @@ public class Profile {
     }
 
     public static List<Address> collect(List<Profile> profiles) {
-        return profiles.stream().filter((p) -> p.address != null)
+        return profiles.stream()
+                .filter((p) -> p.address != null)
                 .map((p) -> p.address)
                 .sorted(Comparator.comparing(Address::getCity))
                 .distinct()
