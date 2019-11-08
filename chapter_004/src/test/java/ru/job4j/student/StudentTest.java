@@ -30,9 +30,10 @@ public class StudentTest {
         list.add(null);
         list.add(null);
 
-        List<Student> expected = new ArrayList<>();
-        expected.add(s4);
-        expected.add(s1);
+        List<Student> expected = List.of(s4, s1);
+
+       /* expected.add(s4);
+        expected.add(s1);*/
 
         List<Student> result = Student.levelOf(list, 80);
         assertThat(result, is(expected));

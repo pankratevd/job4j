@@ -56,11 +56,11 @@ public class SchoolTest {
         Student s2 = new Student("Petr", "Petrov");
         Student s3 = new Student("Petr", "Ivanov");
         Student s4 = new Student("Ivan", "Petrov");
-        List<Student> list = new ArrayList<>();
-        list.add(s1);
+        List<Student> list = List.of(s1, s2, s3, s4);
+        /*list.add(s1);
         list.add(s2);
         list.add(s3);
-        list.add(s4);
+        list.add(s4);*/
         Map<String, String> result = School.convertToMap(list);
 
         Map<String, String> expected = new HashMap<>();
