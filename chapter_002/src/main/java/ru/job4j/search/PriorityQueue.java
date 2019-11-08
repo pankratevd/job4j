@@ -6,7 +6,7 @@ public class PriorityQueue {
     private LinkedList<Task> tasks = new LinkedList<>();
 
     public void put(Task task) {
-        int index = 0;
+        var index = 0;
         if (tasks.size() == 0) {
             tasks.add(task);
             return;
