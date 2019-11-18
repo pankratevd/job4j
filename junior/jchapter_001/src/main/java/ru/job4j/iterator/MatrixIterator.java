@@ -18,15 +18,17 @@ public class MatrixIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        int currentInnerIndex = innerIndex;
+        int inner = innerIndex;
         boolean result = false;
 
-        for (int i = outerIndex; i < values.length; i++) {
-            if (values[i].length > currentInnerIndex) {
+        for (int outer = outerIndex; outer < values.length; outer++) {
+            if (inner < values[outer].length) {
+                outerIndex = outer;
+                innerIndex = inner;
                 result = true;
                 break;
             } else {
-                currentInnerIndex = 0;
+                inner = 0;
             }
         }
         return result;
@@ -37,16 +39,16 @@ public class MatrixIterator implements Iterator {
         if (!this.hasNext()) {
             throw new NoSuchElementException();
         }
-        int result = 0;
-        for (int i = outerIndex; i < values.length; i++) {
-            if (values[i].length > innerIndex) {
-                result = values[i][innerIndex++];
-                break;
-            } else {
-                innerIndex = 0;
-                outerIndex = i + 1;
-            }
+
+        int result = values[outerIndex][innerIndex];
+
+        if (innerIndex < values[outerIndex].length) {
+            innerIndex++;
+        } else {
+            innerIndex = 0;
+            outerIndex++;
         }
+
         return result;
     }
 
