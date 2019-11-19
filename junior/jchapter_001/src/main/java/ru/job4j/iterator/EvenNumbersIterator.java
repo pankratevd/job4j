@@ -2,7 +2,6 @@ package ru.job4j.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 
 public class EvenNumbersIterator implements Iterator {
 
@@ -12,16 +11,6 @@ public class EvenNumbersIterator implements Iterator {
 
     public EvenNumbersIterator(int[] values) {
         this.values = values;
-    }
-
-    @Override
-    public void remove() {
-
-    }
-
-    @Override
-    public void forEachRemaining(Consumer action) {
-
     }
 
     @Override
