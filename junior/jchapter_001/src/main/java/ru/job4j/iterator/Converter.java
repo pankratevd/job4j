@@ -14,16 +14,12 @@ public class Converter {
             public boolean hasNext() {
                 boolean result = false;
 
-                if (!it.hasNext()) {
-                    while (its.hasNext()) {
-                        it = its.next();
-                        if (it.hasNext()) {
-                            result = true;
-                            break;
-                        }
+                while (it.hasNext() || its.hasNext()) {
+                    if (it.hasNext()) {
+                        result = true;
+                        break;
                     }
-                } else {
-                    result = true;
+                    it = its.next();
                 }
                 return result;
             }
