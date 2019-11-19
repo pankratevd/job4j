@@ -40,5 +40,4 @@ public class MatrixIterator implements Iterator {
 
         return result;
     }
-
 }
