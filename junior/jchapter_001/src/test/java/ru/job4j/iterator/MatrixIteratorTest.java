@@ -45,7 +45,7 @@ public class MatrixIteratorTest {
 
     @Test
     public void whenHasNextOnEmptyArrayReturnFalse() {
-        MatrixIterator it = new MatrixIterator(new int[][]{{}, {}});
+        MatrixIterator it = new MatrixIterator(new int[][]{{}});
 
         boolean result = it.hasNext();
         boolean expected = false;
@@ -55,7 +55,7 @@ public class MatrixIteratorTest {
 
     @Test
     public void whenEmptyInMiddleElement() {
-        MatrixIterator it = new MatrixIterator(new int[][]{{1, 2}, {6, 4, 5}, {}, {}, {3}});
+        MatrixIterator it = new MatrixIterator(new int[][]{{1, 2}, {6, 4, 5}, {3}});
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(6));
@@ -69,7 +69,7 @@ public class MatrixIteratorTest {
 
     @Test
     public void whenEmptyInAll() {
-        MatrixIterator it = new MatrixIterator(new int[][]{{}, {2}, {}, {}});
+        MatrixIterator it = new MatrixIterator(new int[][]{{2}});
         Integer result = it.next();
         Integer expected = 2;
 
@@ -78,7 +78,7 @@ public class MatrixIteratorTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenEmptySurround() {
-        MatrixIterator it = new MatrixIterator(new int[][]{{}, {}, {}, {1, 2}, {}, {3, 4, 5}, {}, {}, {}});
+        MatrixIterator it = new MatrixIterator(new int[][] {{1, 2}, {3, 4, 5}});
         assertThat(it.next(), is(1));
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
@@ -95,7 +95,7 @@ public class MatrixIteratorTest {
 
     @Test(expected = NoSuchElementException.class)
     public void whenEmptyThenException() {
-        MatrixIterator it = new MatrixIterator(new int[][]{{}, {}, {}});
+        MatrixIterator it = new MatrixIterator(new int[][]{{}});
         it.next();
 
     }
