@@ -1,7 +1,5 @@
 package ru.job4j.generic;
 
-import java.util.Iterator;
-
 abstract class AbstractStore<T extends Base> implements Store<T> {
 
     SimpleArray<T> array;
@@ -51,15 +49,15 @@ abstract class AbstractStore<T extends Base> implements Store<T> {
 
     private int findIndex(String id) {
         int index = -1;
-        int i = 0;
-        Iterator<T> it = array.iterator();
-        while (it.hasNext()) {
+        int i = -1;
+        for (T t : array) {
             i++;
-            if (id.equals(it.next().getId())) {
+            if (id.equals(t.getId())) {
                 index = i;
                 break;
             }
         }
         return index;
     }
+
 }
