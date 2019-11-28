@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class DynamicList<E> implements Iterable<E> {
-    private int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
 
     Object[] container;
 
@@ -20,20 +20,24 @@ public class DynamicList<E> implements Iterable<E> {
 
     public void add(E value) {
 
-        grow();
+        growContainer();
 
         container[size++] = value;
+
         modCount++;
     }
 
     public E get(int index) {
+
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException();
+        }
         return (E) container[index];
     }
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            boolean isNext;
             int itPosition = 0;
             private int expectedModCount = modCount;
 
@@ -42,7 +46,7 @@ public class DynamicList<E> implements Iterable<E> {
                 if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
                 }
-                return false;
+                return itPosition < size;
             }
 
             @Override
@@ -54,13 +58,12 @@ public class DynamicList<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                isNext = true;
                 return (E) container[itPosition++];
             }
         };
     }
 
-    private Object[] grow() {
+    private Object[] growContainer() {
         if (container.length == size) {
             container = Arrays.copyOf(container, container.length << 1);
         }
