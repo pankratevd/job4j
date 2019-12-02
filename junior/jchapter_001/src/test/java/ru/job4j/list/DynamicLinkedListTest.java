@@ -79,4 +79,32 @@ public class DynamicLinkedListTest {
         list.add(8);
         it.hasNext();
     }
+
+    @Test (expected = NoSuchElementException.class)
+    public void whenRemoveAllItemsOnFillListThenException() {
+        assertThat(list.getSize(), is(8));
+        assertThat(list.get(7), is(7));
+        list.removeLast();
+        assertThat(list.getSize(), is(7));
+        assertThat(list.get(6), is(6));
+        list.removeLast();
+        assertThat(list.getSize(), is(6));
+        assertThat(list.get(5), is(5));
+        list.removeLast();
+        assertThat(list.getSize(), is(5));
+        assertThat(list.get(4), is(4));
+        list.removeLast();
+        assertThat(list.getSize(), is(4));
+        assertThat(list.get(3), is(3));
+        list.removeLast();
+        assertThat(list.getSize(), is(3));
+        assertThat(list.get(2), is(2));
+        list.removeLast();
+        list.removeLast();
+        assertThat(list.getSize(), is(1));
+        assertThat(list.get(0), is(0));
+        list.removeLast();
+        assertThat(list.getSize(), is(0));
+        list.removeLast();
+    }
 }
