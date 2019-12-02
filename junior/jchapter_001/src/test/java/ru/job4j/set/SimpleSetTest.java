@@ -13,20 +13,21 @@ public class SimpleSetTest {
     @Test
     public void addElementToSetWhenNotContained() {
         SimpleSet<String> set = new SimpleSet<>();
+        Iterator<String>  it = set.iterator();
 
         set.add("1");
         set.add("2");
         set.add("3");
 
-        assertThat(set.list.getSize(), is(3));
-        assertThat(set.list.get(0), is("3"));
-        assertThat(set.list.get(1), is("2"));
-        assertThat(set.list.get(2), is("1"));
+        assertThat(it.next(), is("1"));
+        assertThat(it.next(), is("2"));
+        assertThat(it.next(), is("3"));
     }
 
     @Test
     public void addElementWhenExistThenNotAdded() {
         SimpleSet<Integer> set = new SimpleSet<>();
+        Iterator<Integer>  it = set.iterator();
 
         set.add(1);
         set.add(1);
@@ -38,10 +39,10 @@ public class SimpleSetTest {
         set.add(2);
         set.add(3);
 
-        assertThat(set.list.getSize(), is(3));
-        assertThat(set.list.get(0), is(3));
-        assertThat(set.list.get(1), is(2));
-        assertThat(set.list.get(2), is(1));
+        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(3));
+        assertFalse(it.hasNext());
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -58,11 +59,11 @@ public class SimpleSetTest {
         set.add(3);
 
         assertTrue(it.hasNext());
-        assertThat(it.next(), is(3));
+        assertThat(it.next(), is(1));
         assertTrue(it.hasNext());
         assertThat(it.next(), is(2));
         assertTrue(it.hasNext());
-        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(3));
         assertFalse(it.hasNext());
 
         it.next();

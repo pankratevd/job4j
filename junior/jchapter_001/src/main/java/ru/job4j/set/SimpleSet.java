@@ -1,16 +1,15 @@
 package ru.job4j.set;
 
-import ru.job4j.list.SimpleArrayList;
+import ru.job4j.generic.SimpleArray;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class SimpleSet<E> implements Iterable<E> {
 
-    SimpleArrayList<E> list;
+    private SimpleArray<E> list;
 
     public SimpleSet() {
-        list = new SimpleArrayList<>();
+        list = new SimpleArray<>(5);
     }
 
     public void add(E value) {
@@ -21,28 +20,13 @@ public class SimpleSet<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
-            int itPosition = 0;
-            @Override
-            public boolean hasNext() {
-                return itPosition < list.getSize();
-            }
-
-            @Override
-            public E next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-
-                return list.get(itPosition++);
-            }
-        };
+        return list.iterator();
     }
 
     private boolean checkContained(E value) {
         boolean result = false;
-        for (int i = 0; i < list.getSize(); i++) {
-            if (value.equals(list.get(i))) {
+        for (E item : list) {
+            if (value.equals(item)) {
                 result = true;
                 break;
             }
