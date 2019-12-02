@@ -7,8 +7,8 @@ import java.util.NoSuchElementException;
 public class DynamicLinkedList<E> implements Iterable<E> {
     private int size = 0;
     private int modCount = 0;
-     Node<E> first;
-     Node<E> last;
+    private Node<E> first;
+    private Node<E> last;
 
     public void add(E value) {
         if (size == 0) {
@@ -103,7 +103,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
 
     }
 
-    public static class Node<E> {
+    private static class Node<E> {
         E item;
         Node<E> prev;
         Node<E> next;

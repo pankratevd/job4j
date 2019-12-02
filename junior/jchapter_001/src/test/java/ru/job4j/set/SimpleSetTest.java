@@ -13,7 +13,7 @@ public class SimpleSetTest {
     @Test
     public void addElementToSetWhenNotContained() {
         SimpleSet<String> set = new SimpleSet<>();
-        Iterator<String>  it = set.iterator();
+        Iterator<String> it = set.iterator();
 
         set.add("1");
         set.add("2");
@@ -27,7 +27,7 @@ public class SimpleSetTest {
     @Test
     public void addElementWhenExistThenNotAdded() {
         SimpleSet<Integer> set = new SimpleSet<>();
-        Iterator<Integer>  it = set.iterator();
+        Iterator<Integer> it = set.iterator();
 
         set.add(1);
         set.add(1);
