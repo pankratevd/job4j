@@ -107,4 +107,18 @@ public class DynamicLinkedListTest {
         assertThat(list.getSize(), is(0));
         list.removeLast();
     }
+
+    @Test
+    public void consistentlyPoll() {
+        assertThat(list.poll(), is(0));
+        assertThat(list.poll(), is(1));
+        assertThat(list.poll(), is(2));
+        assertThat(list.poll(), is(3));
+        assertThat(list.poll(), is(4));
+        assertThat(list.poll(), is(5));
+        assertThat(list.poll(), is(6));
+        assertThat(list.poll(), is(7));
+        assertNull(list.poll());
+
+    }
 }

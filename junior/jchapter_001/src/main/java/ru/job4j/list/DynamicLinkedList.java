@@ -59,6 +59,21 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         }
     }
 
+    public E poll() {
+        E result;
+        if (size == 0) {
+            result = null;
+        } else {
+            result = first.item;
+            Node<E> oldFirst = first;
+            first = first.next;
+            oldFirst.next = null;
+            modCount++;
+            size--;
+        }
+        return result;
+    }
+
     public int getSize() {
         return size;
     }

@@ -20,6 +20,10 @@ public class SimpleStack<T> {
         return result;
     }
 
+    public T pollFirst() {
+        return stack.poll();
+    }
+
     public void push(T value) {
         stack.add(value);
     }
