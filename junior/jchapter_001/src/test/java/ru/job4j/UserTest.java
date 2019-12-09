@@ -14,6 +14,6 @@ public class UserTest {
         Map<User, Object> map = new HashMap<>();
         map.put(u1, 0);
         map.put(u2, 0);
-        System.out.println(map); // {ru.job4j.map.User@5f1de56=0, ru.job4j.map.User@5f1de56=0}
+        System.out.println(map); //{ru.job4j.map.User@6e8dacdf=0, ru.job4j.map.User@7a79be86=0}
     }
 }
