@@ -1,9 +1,11 @@
-package ru.job4j;
+package ru.job4j.map;
 
 import org.junit.Test;
-import ru.job4j.map.User;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserTest {
 
