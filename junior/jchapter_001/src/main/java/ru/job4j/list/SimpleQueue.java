@@ -9,7 +9,21 @@ public class SimpleQueue<T> {
     }
 
     public T poll() {
-        return stack.pollFirst();
+        T result;
+        SimpleStack<T> temp = new SimpleStack<>();
+        T value;
+        value = stack.poll();
+        while (value != null) {
+            temp.push(value);
+            value = stack.poll();
+        }
+        result = temp.poll();
+        value = temp.poll();
+        while (value != null) {
+            stack.push(value);
+            value = temp.poll();
+        }
+        return result;
     }
 
     public void push(T value) {
