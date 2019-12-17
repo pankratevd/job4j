@@ -1,6 +1,7 @@
 package ru.job4j.map;
 
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SimpleHashMap<K, V> {
 
@@ -12,15 +13,15 @@ public class SimpleHashMap<K, V> {
 
     private int size = 0;
 
-    Node<K, V>[] array;
+    private Entry<K, V>[] array;
 
     public SimpleHashMap() {
-        array = new Node[DEFAULT_CAPACITY];
+        array = new Entry[DEFAULT_CAPACITY];
     }
 
     public boolean insert(K key, V value) {
         boolean result = true;
-        Node<K, V> node = new Node<>(key, value);
+        Entry<K, V> node = new Entry<>(key, value);
 
         int i = index(key);
         if (array[i] != null) {
@@ -46,10 +47,6 @@ public class SimpleHashMap<K, V> {
         return result;
     }
 
-    private int index(K key) {
-        return Objects.hashCode(key) % array.length;
-    }
-
     public V get(K key) {
         V result = null;
         int i = index(key);
@@ -59,27 +56,71 @@ public class SimpleHashMap<K, V> {
         return result;
     }
 
+    public Set<Entry<K, V>> entrySet() {
+        Set<Entry<K, V>> result = new HashSet<>();
+        for (Entry<K, V> e : array) {
+            if (e != null) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    public Set<K> keySet() {
+        Set<K> result = new HashSet<>();
+        for (Entry<K, V> e : array) {
+            if (e != null) {
+                result.add(e.key);
+            }
+        }
+        return result;
+    }
+
     int getArraySize() {
         return array.length;
     }
 
+    private int index(K key) {
+        int result;
+
+        if (key != null) {
+            result = key.hashCode() % (array.length - 1);
+        } else {
+            result = 0;
+        }
+        return result;
+    }
+
     private void resize() {
-        Node<K, V>[] oldArray = array;
+        Entry<K, V>[] oldArray = array;
         int capacity = oldArray.length * 2;
-        array = new Node[capacity];
+        array = new Entry[capacity];
+        for (int i = 0; i < oldArray.length; i++) {
+            if (oldArray[i] != null) {
+                array[index(oldArray[i].key)] = oldArray[i];
+            }
+        }
         threshold = capacity * LOAD_FACTORY;
     }
 
 
-    public static class Node<K, V> {
+    public static class Entry<K, V> {
 
-        K key;
+        private K key;
 
-        V value;
+        private V value;
 
-        public Node(K key, V value) {
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
         }
     }
 }
