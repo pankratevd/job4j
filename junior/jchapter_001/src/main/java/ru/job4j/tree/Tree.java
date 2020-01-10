@@ -42,13 +42,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public Iterator<E> iterator() {
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+
         return new Iterator<>() {
-            LinkedList<Node<E>> list = listTree();
-            Iterator<Node<E>> it = list.iterator();
 
             @Override
             public boolean hasNext() {
-                return it.hasNext();
+                return !queue.isEmpty();
             }
 
             @Override
@@ -56,22 +57,13 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return it.next().getValue();
-            }
-
-            private LinkedList<Node<E>> listTree() {
-                LinkedList<Node<E>> data = new LinkedList<>();
-                LinkedList<Node<E>> result = new LinkedList<>();
-                data.add(Tree.this.root);
-                while (!data.isEmpty()) {
-                    Node<E> el = data.poll();
-                    result.addFirst(el);
-                    for (Node<E> child : el.leaves()) {
-                        data.addFirst(child);
-                    }
+                Node<E> result = queue.poll();
+                for (Node<E> child : result.leaves()) {
+                    queue.offer(child);
                 }
-                return result;
+                return result.getValue();
             }
         };
+
     }
 }
