@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Petr Arsentev (parsentev@yandex.ru)
@@ -63,9 +63,40 @@ public class TreeTest {
         tree.add(5, 8);
         Iterator<Integer> it = tree.iterator();
         while (it.hasNext()) {
-         result.add(it.next());
+            result.add(it.next());
         }
         Collections.sort(result);
         assertThat(result, is(expected));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 4);
+        tree.add(4, 5);
+        tree.add(4, 6);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        assertTrue(tree.isBinary());
+    }
+
+    @Test
+    public void whenTreeIsNotBinaryThenFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 4);
+        tree.add(4, 5);
+        tree.add(4, 6);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        tree.add(5, 9);
+        assertFalse(tree.isBinary());
+    }
+
+    @Test
+    public void whenOnlyRootElementThenBinaryIsTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        assertTrue(tree.isBinary());
     }
 }
