@@ -49,9 +49,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 result = false;
                 break;
             } else {
-                for (Node<E> child : el) {
-                    data.offer(child);
-                }
+               data.addAll(el);
             }
         }
 
