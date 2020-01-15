@@ -1,15 +1,31 @@
 package ru.job4j.statistic;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Analyze {
 
     public Info diff(List<User> previous, List<User> current) {
 
+        Info info = new Info();
 
-        return null;
+        Map<Integer, String> prev = new HashMap<>();
 
+        Map<Integer, String> curr = new HashMap<>();
+
+        previous.forEach(u -> prev.put(u.id, u.name));
+
+        current.forEach(u -> curr.put(u.id, u.name));
+
+        info.added = (int) curr.entrySet().stream().filter(e -> !prev.containsKey(e.getKey())).count();
+
+        info.deleted = (int) prev.entrySet().stream().filter(e -> !curr.containsKey(e.getKey())).count();
+
+        info.changed = (int) prev.entrySet().stream().filter(e-> (curr.containsKey(e.getKey()) && (!e.getValue().equals(curr.get(e.getKey()))))).count();
+
+        return info;
     }
 
     public static class User {
@@ -65,5 +81,6 @@ public class Analyze {
         public int getDeleted() {
             return deleted;
         }
+
     }
 }
