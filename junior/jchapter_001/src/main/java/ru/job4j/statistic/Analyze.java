@@ -13,17 +13,19 @@ public class Analyze {
 
         Map<Integer, String> prev = new HashMap<>();
 
-        Map<Integer, String> curr = new HashMap<>();
-
         previous.forEach(u -> prev.put(u.id, u.name));
 
-        current.forEach(u -> curr.put(u.id, u.name));
+        current.forEach(u -> {
+            if (prev.containsKey(u.id)) {
+                if (!u.name.equals(prev.get(u.id))) {
+                    info.changed++;
+                }
+            } else {
+                info.added++;
+            }
+        });
 
-        info.added = (int) curr.entrySet().stream().filter(e -> !prev.containsKey(e.getKey())).count();
-
-        info.deleted = (int) prev.entrySet().stream().filter(e -> !curr.containsKey(e.getKey())).count();
-
-        info.changed = (int) prev.entrySet().stream().filter(e-> (curr.containsKey(e.getKey()) && (!e.getValue().equals(curr.get(e.getKey()))))).count();
+        info.deleted = prev.size() - (current.size() - info.added);
 
         return info;
     }
