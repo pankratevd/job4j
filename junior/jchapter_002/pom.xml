@@ -4,18 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.job4j</groupId>
-    <artifactId>job4j</artifactId>
-    <packaging>pom</packaging>
+    <groupId>ru.job4j.junior</groupId>
+    <artifactId>jchapter_002</artifactId>
     <version>3.0</version>
-    <modules>
-        <module>chapter_001</module>
-        <module>puzzle</module>
-        <module>chapter_002</module>
-        <module>chapter_004</module>
-        <module>junior/jchapter_001</module>
-        <module>junior/jchapter_002</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>12</maven.compiler.source>
@@ -64,13 +55,10 @@
             <version>11</version>
         </dependency>
     </dependencies>
+
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -88,25 +76,6 @@
                         </configuration>
                         <goals>
                             <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
