@@ -16,19 +16,15 @@ public class Config {
         this.path = path;
     }
 
-    public void load() throws IOException {
+    public void load() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(this.path))) {
             bufferedReader.lines()
-                    .filter(l -> !(l.trim().startsWith("#") || l.trim().startsWith("!") || l.isEmpty()))
+                    .filter(l -> !(l.trim().startsWith("#") || l.trim().startsWith("!") || l.isEmpty() || !l.matches("(\\S[^=]+)(\\s*=\\s*)(\\S[^=]+)")))
                     .forEach(l -> {
                         String[] strArray = l.split("=");
-                        try {
-                            values.put(strArray[0].trim(), strArray[1].trim());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        values.put(strArray[0].trim(), strArray[1].trim());
                     });
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

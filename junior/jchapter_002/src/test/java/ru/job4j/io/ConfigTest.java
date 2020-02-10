@@ -2,8 +2,6 @@ package ru.job4j.io;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -11,7 +9,7 @@ import static org.junit.Assert.assertThat;
 public class ConfigTest {
 
     @Test
-    public void whenPairWithoutComment() throws IOException {
+    public void whenPairWithoutComment() {
         String path = "./data/app.properties";
         Config config = new Config(path);
         config.load();
@@ -23,7 +21,7 @@ public class ConfigTest {
     }
 
     @Test
-    public void whenPairWithComment() throws IOException {
+    public void whenPairWithComment() {
         String path = "./data/app.properties";
         Config config = new Config(path);
         config.load();
