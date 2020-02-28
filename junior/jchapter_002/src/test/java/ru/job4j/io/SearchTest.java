@@ -1,18 +1,8 @@
 package ru.job4j.io;
 
-import org.junit.Test;
-
-import java.io.File;
-import java.nio.file.NotDirectoryException;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.Assert.assertTrue;
-
 public class SearchTest {
 
-    @Test
+ /*   @Test
     public void whenFilesExist() throws NotDirectoryException {
         String path = System.getProperty("java.io.tmpdir") + "test";
         List<String> exts = List.of("exe", "log");
@@ -38,5 +28,5 @@ public class SearchTest {
         List<String> exts = List.of("tmp");
         Search search = new Search();
         List<File> result = search.files(path, exts);
-    }
+    }*/
 }
