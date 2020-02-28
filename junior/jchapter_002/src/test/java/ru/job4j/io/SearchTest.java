@@ -1,8 +1,16 @@
 package ru.job4j.io;
 
+import org.junit.Test;
+
+import java.io.File;
+import java.nio.file.NotDirectoryException;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+
 public class SearchTest {
 
- /*   @Test
+   /* @Test
     public void whenFilesExist() throws NotDirectoryException {
         String path = System.getProperty("java.io.tmpdir") + "test";
         List<String> exts = List.of("exe", "log");
@@ -11,7 +19,7 @@ public class SearchTest {
         List<File> expected = List.of(new File("parent.log"), new File("1_double.exe"), new File("1_double.exe"), new File("2_inner.log"));
         assertThat(result, containsInAnyOrder(expected.toArray()));
 
-    }
+    }*/
 
     @Test
     public void whenFilesDoNotExist() throws NotDirectoryException {
@@ -28,5 +36,5 @@ public class SearchTest {
         List<String> exts = List.of("tmp");
         Search search = new Search();
         List<File> result = search.files(path, exts);
-    }*/
+    }
 }
