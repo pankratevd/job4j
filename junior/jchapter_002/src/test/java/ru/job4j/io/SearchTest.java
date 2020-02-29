@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SearchTest {
 
-    @Test
+    @Test (expected = NotDirectoryException.class)
     public void whenFilesDoNotExist() throws NotDirectoryException {
         String path = System.getProperty("java.io.tmpdir") + "test";
         List<String> exts = List.of("tmp");
