@@ -1,57 +1,67 @@
 package ru.job4j.io.pack;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Args {
 
-    private String[] arr;
+    private String directory;
 
-    private File directory;
+    private String output;
 
-    private File output;
+    private String exclude = "";
 
-    private String exclude;
+    public void initialize(String[] arr) throws IllegalArgumentException {
+        try {
+            if (arr.length == 6) {
+                for (int i = 0; i != 6; i++) {
+                    switch (arr[i]) {
+                        case "-o":
+                            output = arr[++i];
+                            break;
 
-    Args(String[] arr) {
-        this.arr = arr;
-    }
+                        case "-e":
+                            exclude = arr[++i];
+                            break;
 
-    File directory() {
-        return new File(arr[findByIndex("-d") + 1]);
+                        case "-d":
+                            directory = arr[++i];
+                            break;
 
-    }
+                        default:
+                            throw new IllegalArgumentException("Incorrect arguments");
+                    }
+                }
+            } else if (arr.length == 4) {
+                    for (int i = 0; i != 4; i++) {
+                        switch (arr[i]) {
+                            case "-o":
+                                output = arr[++i];
+                                break;
 
-    List<String> exclude() {
-        List<String> result = new ArrayList<>();
+                            case "-d":
+                                directory = arr[++i];
+                                break;
 
-        int index = findByIndex("-e");
-        index++;
+                            default:
+                                throw new IllegalArgumentException("Incorrect arguments");
+                    }
+                }
+            } else throw new IllegalArgumentException("Incorrect arguments");
 
-        while (index < arr.length && !arr[index].startsWith("-")) {
-            result.add(arr[index]);
-            index++;
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Incorrect arguments");
         }
-
-        return result;
     }
 
-    File output() {
-        return new File(arr[findByIndex("-o") + 1]);
+    public String directory() {
+        return this.directory;
     }
 
-    private int findByIndex(String s) {
-        int result = -1;
-        for (int i = 0; i < arr.length; i++) {
-            if (s.equals(arr[i])) {
-                System.out.println(arr[i]);
-                result = i;
-                break;
-            }
-        }
-        return result;
+    public String output() {
+        return this.output;
+    }
+
+    public String exclude() {
+        return this.exclude;
     }
 }
 
