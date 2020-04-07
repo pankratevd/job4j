@@ -8,31 +8,35 @@ import java.util.*;
 
 public class Link {
 
-    private final String delimiter = ";";
-    private final String empty = "\"\"";
-    private final String regex = "\\S+;\\S+;\\S+";
-
+    static final String DELIMITER = ";";
+    private static final String EMPTY_VALUE = "\"\"";
+    private int numberColumns = 3;
     private String inFile;
     private String outFile;
 
     private List<String> badLines = new LinkedList<>();
     private Set<Line> lines = new HashSet<>();
     private List<Group> groups = new LinkedList<>();
-
-    private Map<String, Boolean> c1 = new HashMap<>();
-    private Map<String, Boolean> c2 = new HashMap<>();
-    private Map<String, Boolean> c3 = new HashMap<>();
+    private List<Set<String>> columns = new ArrayList<>(numberColumns);
+    private List<Set<String>> duplicate = new ArrayList<>(numberColumns);
 
     public Link(String inFile, String outFile) {
         this.inFile = inFile;
         this.outFile = outFile;
     }
 
+    public Link(String inFile, String outFile, int columns) {
+        this(inFile, outFile);
+        this.numberColumns = columns;
+    }
+
     public void process() throws IOException {
+
         createSetLines();
-        clearSingleLines();
+        removeNonDuplicateLine();
         makeGroups();
         printGroups();
+
     }
 
     public void printBadLines() {
@@ -42,65 +46,67 @@ public class Link {
     }
 
     private void createSetLines() throws IOException {
+        for (int i = 0; i < numberColumns; i++) {
+            columns.add(i, new HashSet<>());
+            duplicate.add(i, new HashSet<>());
+        }
 
         try (BufferedReader br = new BufferedReader(new FileReader(inFile))) {
-            String line = br.readLine();
-            while (line != null) {
-                if (!line.matches(regex)) {
-                    badLines.add(line);
-                    line = br.readLine();
+
+            String strLine = br.readLine();
+
+            while (strLine != null) {
+                String[] arr = strLine.split(DELIMITER);
+                if (arr.length < numberColumns) {
+                    badLines.add(strLine);
+                    strLine = br.readLine();
                     continue;
                 }
-                String[] arr = line.split(delimiter, -1);
-                String column1 = arr[0];
-                String column2 = arr[1];
-                String column3 = arr[2];
+                Line line = new Line(strLine);
 
-                if (!lines.add(new Line(column1, column2, column3))) {
-                    line = br.readLine();
+                if (!lines.contains(line)) {
+                    lines.add(line);
+                } else {
+                    strLine = br.readLine();
                     continue;
                 }
 
-                if (c1.containsKey(column1) && !empty.equals(column1)) {
-                    c1.put(column1, true);
-                } else {
-                    c1.put(column1, false);
+                for (int i = 0; i < numberColumns; i++) {
+                    if (EMPTY_VALUE.equals(arr[i])) {
+                        continue;
+                    }
+                    if (!columns.get(i).add(arr[i])) {
+                        duplicate.get(i).add(arr[i]);
+                    }
                 }
-
-                if (c2.containsKey(column2) && !empty.equals(column2)) {
-                    c2.put(column2, true);
-                } else {
-                    c2.put(column2, false);
-                }
-
-                if (c3.containsKey(column3) && !empty.equals(column3)) {
-                    c3.put(column3, true);
-                } else {
-                    c3.put(column3, false);
-                }
-
-
-                line = br.readLine();
+                strLine = br.readLine();
             }
         }
     }
 
-    private void clearSingleLines() {
-        c1.entrySet().removeIf(e -> !e.getValue());
-        c2.entrySet().removeIf(e -> !e.getValue());
-        c3.entrySet().removeIf(e -> !e.getValue());
-        lines.removeIf(l -> !(c1.containsKey(l.field1) || c2.containsKey(l.field2) || c3.containsKey(l.field3)));
+    private void removeNonDuplicateLine() {
+
+        lines.removeIf(e -> {
+            boolean isRemove = true;
+            for (int i = 0; i < numberColumns; i++) {
+                String str = e.getArr()[i];
+                if (duplicate.get(i).contains(str)) {
+                    isRemove = false;
+                    break;
+                }
+            }
+            return isRemove;
+        });
     }
 
-
     private void makeGroups() {
+
         List<Line> listLines = new LinkedList<>(lines);
         lines = null;
         Queue<Line> queue = new LinkedList<>();
 
         while (listLines.size() != 0) {
-            Line ln = listLines.get(0);
-            queue.offer(ln);
+            queue.offer(listLines.get(0));
             Group newGroup = new Group();
 
             while (!queue.isEmpty()) {
@@ -108,23 +114,27 @@ public class Link {
                 listLines.remove(line);
                 newGroup.list.add(line);
                 for (Line l : listLines) {
-                    if ((!empty.equals(l.field1) && l.field1.equals(line.field1)) || (!empty.equals(l.field2) && l.field2.equals(line.field2)) || (!empty.equals(l.field3) && l.field3.equals(line.field3))) {
-                        queue.offer(l);
+                    for (int i = 0; i < numberColumns; i++) {
+                        if (!EMPTY_VALUE.equals(l.getArr()[i]) && l.getArr()[i].equals(line.getArr()[i])) {
+                            queue.offer(l);
+                        }
                     }
                 }
-                listLines.removeAll(queue);
             }
+
             groups.add(newGroup);
         }
-        Collections.sort(groups, (o1, o2) -> o2.list.size() - o1.list.size());
+
+        groups.sort((o1, o2) -> o2.list.size() - o1.list.size());
     }
 
     private void printGroups() throws IOException {
+
         int count = 1;
         try (PrintWriter printWriter = new PrintWriter(outFile);) {
-            printWriter.printf("Всего групп: %d\n", groups.size());
+            printWriter.printf("Всего групп: %d%n", groups.size());
             for (Group gr : groups) {
-                printWriter.printf("Группа %d\n", count++);
+                printWriter.printf("Группа %d%n", count++);
                 for (Line l : gr.list) {
                     printWriter.println(l);
                 }

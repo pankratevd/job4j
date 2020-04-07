@@ -1,19 +1,31 @@
 package ru.job4j.io.links;
 
+
 import java.util.Objects;
 
 public class Line {
 
-    String field1;
+    private String line;
 
-    String field2;
+    private static final String DELIMITER = Link.DELIMITER;
 
-    String field3;
+    private final String[] arr;
 
-    public Line(String field1, String field2, String field3) {
-        this.field1 = field1;
-        this.field2 = field2;
-        this.field3 = field3;
+    public Line(String line) {
+
+        this.line = line;
+
+        this.arr = line.split(DELIMITER);
+
+    }
+
+    public String[] getArr() {
+        return arr;
+    }
+
+    @Override
+    public String toString() {
+        return line;
     }
 
     @Override
@@ -25,24 +37,11 @@ public class Line {
             return false;
         }
         Line line1 = (Line) o;
-        return Objects.equals(field1, line1.field1)
-                && Objects.equals(field2, line1.field2)
-                && Objects.equals(field3, line1.field3);
+        return Objects.equals(line, line1.line);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(field1, field2, field3);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(field1);
-        sb.append(";");
-        sb.append(field2);
-        sb.append(";");
-        sb.append(field3);
-        return sb.toString();
+        return Objects.hash(line);
     }
 }
