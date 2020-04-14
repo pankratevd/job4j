@@ -1,67 +1,61 @@
 package ru.job4j.io.pack;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
 public class Args {
 
-    private String directory;
+    private String[] args;
 
-    private String output;
+    private final List<String> requeredKeys = List.of("-d", "-o");
 
-    private String exclude = "";
+    private final List<String> optionalKeys = List.of("-e");
 
-    public void initialize(String[] arr) throws IllegalArgumentException {
-        try {
-            if (arr.length == 6) {
-                for (int i = 0; i != 6; i++) {
-                    switch (arr[i]) {
-                        case "-o":
-                            output = arr[++i];
-                            break;
+    private String errorMessage = "";
 
-                        case "-e":
-                            exclude = arr[++i];
-                            break;
+    public Args(String[] args) {
+        this.args = args;
+    }
 
-                        case "-d":
-                            directory = arr[++i];
-                            break;
+    public boolean valid() {
+        boolean result = false;
+        List<String> list = Arrays.asList(args);
 
-                        default:
-                            throw new IllegalArgumentException("Incorrect arguments");
-                    }
+        if (list.containsAll(requeredKeys) && !requeredKeys.contains(args[args.length - 1]) && !optionalKeys.contains(args[args.length - 1])) {
+            if (!new File(args[list.indexOf("-d") + 1]).exists()) {
+                errorMessage = "Directory for archiving does not exist.";
+            } else if ((!new File(new File(args[list.indexOf("-o") + 1]).getParent()).exists())) {
+                errorMessage = "Cannot create destination file";
+                result = false;
+            } else {
+                if (!list.stream().filter(s -> s.startsWith("-")).allMatch(s -> (requeredKeys.contains(s)) || optionalKeys.contains(s))) {
+                    errorMessage = "Incorrect arguments. Possible arguments: -d, -o, -e";
+                    result = false;
+                } else {
+                    result = true;
                 }
-            } else if (arr.length == 4) {
-                    for (int i = 0; i != 4; i++) {
-                        switch (arr[i]) {
-                            case "-o":
-                                output = arr[++i];
-                                break;
-
-                            case "-d":
-                                directory = arr[++i];
-                                break;
-
-                            default:
-                                throw new IllegalArgumentException("Incorrect arguments");
-                    }
-                }
-            } else throw new IllegalArgumentException("Incorrect arguments");
-
-
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Incorrect arguments");
+            }
+        } else {
+            errorMessage = "Required parameters not specified: -d, -o are required.";
         }
+        return result;
     }
 
     public String directory() {
-        return this.directory;
+        return valid() ? args[Arrays.asList(args).indexOf("-d") + 1] : null;
     }
 
     public String output() {
-        return this.output;
+        return valid() ? args[Arrays.asList(args).indexOf("-o") + 1] : null;
     }
 
     public String exclude() {
-        return this.exclude;
+        return valid() && Arrays.asList(args).containsAll(optionalKeys) ? args[Arrays.asList(args).indexOf("-e") + 1] : "";
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }
 

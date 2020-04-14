@@ -9,13 +9,14 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    Args arguments;
+    private Args arguments;
 
     public Zip(Args arguments) {
         this.arguments = arguments;
     }
 
     private List<File> seekBy(String root, String ext) {
+
         List<File> result = new ArrayList<>();
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:" + ext);
 
@@ -51,19 +52,22 @@ public class Zip {
 
     }
 
-        public static void main(String[] args) throws IOException {
-        Args arguments = new Args();
-        try {
-            arguments.initialize(args);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Illegal arguments");
-            System.exit(0);
+    public static void main(String[] args) throws IOException {
+
+        Args arguments = new Args(args);
+        if (!arguments.valid()) {
+            System.out.println(arguments.getErrorMessage());
+            System.exit(-1);
         }
-
         Zip zip = new Zip(arguments);
+
         List<File> files = zip.seekBy(arguments.directory(), arguments.exclude());
-        zip.pack(files, new File(arguments.output()));
+
+        try {
+            zip.pack(files, new File(arguments.output()));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(-1);
+        }
     }
-
-
 }
