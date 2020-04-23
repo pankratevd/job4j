@@ -1,9 +1,6 @@
 package ru.job4j.io.links;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class Link {
@@ -29,6 +26,11 @@ public class Link {
         this(inFile, outFile);
         this.numberColumns = columns;
     }
+
+    public Link() {
+    }
+
+    ;
 
     public void process() throws IOException {
 
@@ -141,5 +143,90 @@ public class Link {
                 printWriter.println();
             }
         }
+    }
+
+    private List<List<String>> makeList(String file) throws FileNotFoundException {
+        List<List<String>> list = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+
+            String str = br.readLine();
+            while (str != null) {
+                if (str.split(DELIMITER).length != 3) {
+                    str = br.readLine();
+                    continue;
+                }
+                    List<String> lineList = new ArrayList<>();
+                for (String s : str.split(DELIMITER)) {
+                    lineList.add(s);
+                }
+                list.add(lineList);
+                str = br.readLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return list;
+    }
+
+    private List<String> net(List<List<String>> data) {
+        List<List<String>> result = new ArrayList<>();
+        List<HashMap<String, Set<String>>> columns = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            columns.add(new HashMap<>());
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            List<String> list1 = data.get(i);
+            for (int j = 0; j < list1.size(); j++) {
+                Map<String, Set<String>> map = columns.get(j);
+                if (!map.containsKey(list1.get(j))) {
+                    Set<String> set = new HashSet<>();
+                    set.add(Integer.toString(i));
+                    map.put(list1.get(j), set);
+                } else {
+                    map.get(list1.get(j)).add(Integer.toString(i));
+                }
+            }
+        }
+
+
+        Set<Set<String>> set = new HashSet<>();
+
+        for (int i = 0; i < columns.size(); i++) {
+            //System.out.println("Column " + i);
+            for (Map.Entry<String, Set<String>> e : columns.get(i).entrySet()) {
+                if (e.getValue().size() > 1) {
+                    set.add(e.getValue());
+                }
+            }
+        }
+        System.out.println(set.size());
+
+        List<Set<String>> listSet = new LinkedList<>(set);
+
+        while (listSet.size() != 0) {
+            List<String> list = new ArrayList<>();
+        }
+
+
+
+        return null;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Link link = new Link();
+        List<List<String>> list;
+
+        list = link.makeList("c:/temp/lng.csv");
+        System.out.println(list.size());
+        /*for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }*/
+        link.net(list);
+
     }
 }
