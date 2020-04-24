@@ -42,6 +42,7 @@ public class Zip {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+
                 try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(arguments.directory() + "/" + e))) {
                     zip.write(out.readAllBytes());
                 } catch (IOException ex) {
@@ -49,10 +50,9 @@ public class Zip {
                 }
             });
         }
-
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Args arguments = new Args(args);
         if (!arguments.valid()) {

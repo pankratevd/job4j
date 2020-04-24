@@ -1,16 +1,18 @@
 package ru.job4j.io.pack;
 
-import java.io.File;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Args {
 
     private String[] args;
 
-    private final List<String> requeredKeys = List.of("-d", "-o");
+    private final List<String> requiredKeys = List.of("-d", "-o");
 
     private final List<String> optionalKeys = List.of("-e");
+
+    private final Map<String, String> argumentsMap = new HashMap<>();
 
     private String errorMessage = "";
 
@@ -19,39 +21,36 @@ public class Args {
     }
 
     public boolean valid() {
-        boolean result = false;
-        List<String> list = Arrays.asList(args);
+        boolean result = true;
 
-        if (list.containsAll(requeredKeys) && !requeredKeys.contains(args[args.length - 1]) && !optionalKeys.contains(args[args.length - 1])) {
-            if (!new File(args[list.indexOf("-d") + 1]).exists()) {
-                errorMessage = "Directory for archiving does not exist.";
-            } else if ((!new File(new File(args[list.indexOf("-o") + 1]).getParent()).exists())) {
-                errorMessage = "Cannot create destination file";
-                result = false;
+        for (int i = 0; i < args.length; i++) {
+            if (requiredKeys.contains(args[i]) || optionalKeys.contains(args[i]) && i != args.length - 1) {
+                argumentsMap.put(args[i], args[++i]);
             } else {
-                if (!list.stream().filter(s -> s.startsWith("-")).allMatch(s -> (requeredKeys.contains(s)) || optionalKeys.contains(s))) {
-                    errorMessage = "Incorrect arguments. Possible arguments: -d, -o, -e";
-                    result = false;
-                } else {
-                    result = true;
-                }
+                errorMessage = "Incorrect arguments. Possible arguments: -d, -o, -e";
+                result = false;
+                break;
             }
-        } else {
-            errorMessage = "Required parameters not specified: -d, -o are required.";
         }
+
+        if (result && !argumentsMap.keySet().containsAll(requiredKeys)) {
+            errorMessage = "Required parameters not specified: -d, -o are required.";
+            result = false;
+        }
+
         return result;
     }
 
     public String directory() {
-        return valid() ? args[Arrays.asList(args).indexOf("-d") + 1] : null;
+        return argumentsMap.get("-d") != null ? argumentsMap.get("-d") : "";
     }
 
     public String output() {
-        return valid() ? args[Arrays.asList(args).indexOf("-o") + 1] : null;
+        return argumentsMap.get("-o") != null ? argumentsMap.get("-o") : "";
     }
 
     public String exclude() {
-        return valid() && Arrays.asList(args).containsAll(optionalKeys) ? args[Arrays.asList(args).indexOf("-e") + 1] : "";
+        return argumentsMap.get("-e") != null ? argumentsMap.get("-e") : "";
     }
 
     public String getErrorMessage() {
