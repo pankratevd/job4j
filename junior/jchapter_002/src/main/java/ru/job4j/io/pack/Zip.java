@@ -34,26 +34,17 @@ public class Zip {
     }
 
     private void pack(List<File> sources, File target) throws IOException {
-
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            sources.forEach(e -> {
-                try {
-                    zip.putNextEntry(new ZipEntry(e.getPath()));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(arguments.directory() + "/" + e))) {
+            for (File file : sources) {
+                zip.putNextEntry(new ZipEntry(file.getPath()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(arguments.directory() + "/" + file))) {
                     zip.write(out.readAllBytes());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
                 }
-            });
+            }
         }
     }
 
     public static void main(String[] args) {
-
         Args arguments = new Args(args);
         if (!arguments.valid()) {
             System.out.println(arguments.getErrorMessage());
