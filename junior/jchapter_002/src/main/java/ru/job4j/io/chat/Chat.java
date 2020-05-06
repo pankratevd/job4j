@@ -1,4 +1,4 @@
-package ru.job4j.io.consoleChat;
+package ru.job4j.io.chat;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ConsoleChat {
+public class Chat {
 
     private final String inFile;
     private final String outFile;
@@ -19,7 +19,7 @@ public class ConsoleChat {
 
     private List<String> list = new ArrayList<>();
 
-    public ConsoleChat(String file, String outFile) {
+    public Chat(String file, String outFile) {
         this.inFile = file;
         this.outFile = outFile;
     }
@@ -31,14 +31,14 @@ public class ConsoleChat {
 
         makePhrasesList();
 
-        System.out.println("Чат:");
         try (PrintWriter writer = new PrintWriter(outFile)) {
             do {
                 str = br.readLine();
                 writer.println(str);
-                writer.flush();
 
-                if (EXIT.equals(str)) break;
+                if (EXIT.equals(str)) {
+                    break;
+                }
 
                 if (PAUSE.equals(str)) {
                     isPause = true;
@@ -53,17 +53,15 @@ public class ConsoleChat {
                 if (!isPause) {
                     String phrase = getPhrase();
                     writer.println(phrase);
-                    writer.flush();
                     System.out.println(phrase);
                 }
             } while (!EXIT.equals(str));
         }
     }
 
-
     private void makePhrasesList() throws IOException {
         StringBuilder sb = new StringBuilder();
-        String encodingInFile = "Windows-1251";
+        String encodingInFile = "UTF-8";
         try (BufferedReader br = new BufferedReader(new FileReader(inFile, Charset.forName(encodingInFile)))) {
             int ch = br.read();
             boolean isPrevSymbol = false;
@@ -92,11 +90,5 @@ public class ConsoleChat {
     private String getPhrase() {
         int index = (int) (Math.random() * this.list.size());
         return this.list.get(index);
-    }
-
-    public static void main(String[] args) throws IOException {
-        ConsoleChat chat = new ConsoleChat("c:/temp/text.txt", "c:/temp/out.txt");
-        chat.chat();
-
     }
 }
