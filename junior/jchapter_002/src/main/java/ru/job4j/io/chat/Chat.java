@@ -1,17 +1,19 @@
 package ru.job4j.io.chat;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Stream;
 
 public class Chat {
 
     private final String inFile;
     private final String outFile;
-
-    private final Set<Character> phraseSplitSymbol = Set.of('.', '?', '!');
 
     private final static String PAUSE = "стоп";
     private final static String CONTINUE = "продолжить";
@@ -27,11 +29,13 @@ public class Chat {
     public void chat() throws IOException {
         boolean isPause = false;
         String str;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        makePhrasesList();
+        try (Stream<String> stream = Files.lines(Paths.get(inFile))) {
+            stream.forEach(list::add);
+        }
 
-        try (PrintWriter writer = new PrintWriter(outFile)) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+             PrintWriter writer = new PrintWriter(outFile)) {
             do {
                 str = br.readLine();
                 writer.println(str);
@@ -56,34 +60,6 @@ public class Chat {
                     System.out.println(phrase);
                 }
             } while (!EXIT.equals(str));
-        }
-    }
-
-    private void makePhrasesList() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        String encodingInFile = "UTF-8";
-        try (BufferedReader br = new BufferedReader(new FileReader(inFile, Charset.forName(encodingInFile)))) {
-            int ch = br.read();
-            boolean isPrevSymbol = false;
-            while (ch != -1) {
-                if (!phraseSplitSymbol.contains((char) ch)) {
-                    if (isPrevSymbol) {
-                        this.list.add(sb.toString().replace(System.lineSeparator(), "").trim());
-                        sb = new StringBuilder();
-                        isPrevSymbol = false;
-                    }
-                    sb.append((char) ch);
-                } else {
-                    sb.append((char) ch);
-                    isPrevSymbol = true;
-                }
-                ch = br.read();
-            }
-
-            if (sb.length() != 0) {
-                this.list.add(sb.toString().replace(System.lineSeparator(), "").trim());
-            }
-
         }
     }
 
