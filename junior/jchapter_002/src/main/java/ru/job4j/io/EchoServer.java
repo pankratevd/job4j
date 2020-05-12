@@ -12,21 +12,28 @@ public class EchoServer {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (true) {
-                String first;
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str = in.readLine();
-                    first = str;
+                    int index = str.indexOf("?msg=");
+                    String value = str.substring(index + 5, str.indexOf(" ", index + 5));
                     while (!str.isEmpty()) {
                         System.out.println(str);
                         str = in.readLine();
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
-                }
-                if (first.contains("/?msg=Buy")) {
-                    break;
+
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+
+                    if ("Exit".equals(value)) {
+                        break;
+                    }
+                    if ("Hello".equals(value)) {
+                        out.write("Hello".getBytes());
+                    } else {
+                        out.write(value.getBytes());
+                    }
                 }
             }
         }
