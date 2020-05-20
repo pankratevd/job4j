@@ -1,98 +1,46 @@
 package ru.job4j.io.find;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Find {
 
     private final Args args;
+    private final List<Path> list = new ArrayList<>();
 
     public Find(Args args) {
         this.args = args;
     }
 
     public void process() throws IOException {
-        try (PrintWriter outWriter = new PrintWriter(new File(args.output()))) {
-            PathMatcher matcher;
-            switch (args.specifyingKey()) {
-                case "-f":
-                    Files.walkFileTree(Paths.get(args.directory()), new SimpleFileVisitor<>() {
-                        @Override
-                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                            FileVisitResult result;
-                            if (exc instanceof AccessDeniedException) {
-                                result = FileVisitResult.SKIP_SUBTREE;
-                            } else {
-                                result = super.visitFileFailed(file, exc);
-                            }
-                            return result;
-                        }
+        Files.walkFileTree(Paths.get(args.directory()), fileVisitor());
 
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                            if (file.getFileName().toString().equals(args.filePattern())) {
-                                outWriter.println(file);
-                            }
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
-                    break;
-
-                case "-r":
-                    matcher = FileSystems.getDefault().getPathMatcher("regex:" + args.filePattern());
-                    Files.walkFileTree(Paths.get(args.directory()), new SimpleFileVisitor<>() {
-                        @Override
-                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                            FileVisitResult result;
-                            if (exc instanceof AccessDeniedException) {
-                                result = FileVisitResult.SKIP_SUBTREE;
-                            } else {
-                                result = super.visitFileFailed(file, exc);
-                            }
-                            return result;
-                        }
-
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                            if (matcher.matches(file.getFileName())) {
-                                outWriter.println(file);
-                            }
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
-                    break;
-
-                case "-m":
-                    matcher = FileSystems.getDefault().getPathMatcher("glob:" + args.filePattern());
-                    Files.walkFileTree(Paths.get(args.directory()), new SimpleFileVisitor<>() {
-                        @Override
-                        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                            FileVisitResult result;
-                            if (exc instanceof AccessDeniedException) {
-                                result = FileVisitResult.SKIP_SUBTREE;
-                            } else {
-                                result = super.visitFileFailed(file, exc);
-                            }
-                            return result;
-                        }
-
-                        @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                            if (matcher.matches(file.getFileName())) {
-                                outWriter.println(file);
-                            }
-                            return FileVisitResult.CONTINUE;
-                        }
-                    });
-                    break;
-                default:
-            }
+        try (PrintWriter printWriter = new PrintWriter(args.output())) {
+            list.forEach(printWriter::println);
         }
     }
 
+    private FileVisitor<Path> fileVisitor() {
+        FileVisitor<Path> result;
+
+        switch (args.specifyingKey()) {
+            case "-f":
+                result = new FindByFullNameVisitor(args.filePattern(), this.list);
+                break;
+            case "-r":
+                result = new FindByGlobRegexVisitor(FileSystems.getDefault().getPathMatcher("regex:" + args.filePattern()), list);
+                break;
+            case "-m":
+                result = new FindByGlobRegexVisitor(FileSystems.getDefault().getPathMatcher("glob:" + args.filePattern()), list);
+                break;
+            default:
+                result = null;
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
         Args arguments = new Args(args);
