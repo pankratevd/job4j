@@ -1,70 +1,60 @@
 package ru.job4j.io.minicmd;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class Shell {
 
-    private List<String> list = new ArrayList<>();
+    private final LinkedList<String> list;
 
     public Shell() {
-        rootList();
+        this.list = new LinkedList<>();
     }
 
     public Shell cd(final String path) {
-        int index;
-        String preparedPath = preparePath(path);
-        String[] arr;
-        if (!"/".equals(preparedPath)) {
+        boolean fromRoot = false;
 
-            if (preparedPath.startsWith("/")) {
-                rootList();
-                arr = preparedPath.substring(1).split("/");
-                index = 1;
-            } else {
-                arr = preparedPath.split("/");
-                index = list.size();
-            }
-
-            for (String s : arr) {
-                switch (s) {
-                    case ".":
-                        break;
-                    case "..":
-                        if (index > 1) {
-                            list.remove(--index);
-                        }
-                        break;
-                    default:
-                        list.add(index++, s);
-                }
-            }
+        if ("/".equals(path)) {
+            list.clear();
         } else {
-            rootList();
+            if (path.startsWith("/")) {
+                fromRoot = true;
+            }
+
+            String[] arr = preparePath(path).split("/");
+            fillStack(arr, fromRoot);
         }
         return this;
     }
 
     public String path() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            if (i != 0 && i != list.size() - 1) {
-                sb.append(list.get(i));
-                sb.append("/");
-            } else {
-                sb.append(list.get(i));
+        sb.append("/");
+        list.forEach(s -> sb.append(s).append("/"));
+        return sb.length() > 1 ? sb.deleteCharAt(sb.length() - 1).toString() : sb.toString();
+    }
+
+    private void fillStack(String[] array, boolean fromRoot) {
+        if (fromRoot) {
+            list.clear();
+        }
+
+        for (String s : array) {
+            switch (s) {
+                case ".":
+                    break;
+                case "..":
+                    if (list.size() > 0) {
+                        list.removeLast();
+                    }
+                    break;
+                default:
+                    list.addLast(s);
             }
         }
-        return sb.toString();
     }
 
     private String preparePath(String str) {
-        String result = str.replaceAll("/+", "/");
+        String result = str.replaceAll("/+", "/").replaceFirst("^/", "");
         return result.length() > 1 && result.endsWith("/") ? result.substring(0, result.length() - 1) : result;
-    }
-
-    private void rootList() {
-        this.list = new ArrayList<>();
-        list.add("/");
     }
 }

@@ -29,7 +29,7 @@ public class Directory {
         System.out.println("Type 'exit' for EXIT");
         Scanner sc = new Scanner(System.in);
         System.out.printf("[%s]: ", shell.path());
-        String str = sc.nextLine();
+        String str = sc.nextLine().trim().replaceAll("\\s+", " ");
         while (!"exit".equals(str)) {
             if (str.startsWith("cd")) {
                 String[] arr = str.split(" ");
@@ -38,7 +38,7 @@ public class Directory {
                 }
             }
             System.out.printf("[%s]: ", shell.path());
-            str = sc.nextLine();
+            str = sc.nextLine().trim().replaceAll("\\s+", " ");
         }
     }
 }
