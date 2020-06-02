@@ -1,19 +1,7 @@
 package ru.job4j.io.find;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class FindTest {
+ /*
     @ClassRule
     public static TemporaryFolder folder = new TemporaryFolder();
 
@@ -91,5 +79,7 @@ public class FindTest {
                 FileUtils.readFileToString(new File(folder.getRoot() + "/out.txt"), "utf-8"));
 
     }
+
+  */
 
 }
