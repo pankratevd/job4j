@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class TrackerSingleLazyTest {
+public class MemTrackerSingleLazyTest {
     @Test
     public void checkSingleton() {
         TrackerSingleLazy tracker = TrackerSingleLazy.getInstance();

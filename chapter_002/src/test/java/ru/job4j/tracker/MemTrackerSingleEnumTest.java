@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class TrackerSingleEnumTest {
+public class MemTrackerSingleEnumTest {
 
     @Test
     public void checkSingleton() {

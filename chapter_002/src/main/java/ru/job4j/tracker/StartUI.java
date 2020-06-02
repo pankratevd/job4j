@@ -6,19 +6,19 @@ import java.util.function.Consumer;
 public class StartUI {
 
     private final Input input;
-    private final Tracker tracker;
+    private final Store store;
     private boolean working = true;
     private int[] range = new int[]{0, 1, 2, 3, 4, 5, 6};
     private final Consumer<String> output;
 
-    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
+    public StartUI(Input input, Store store, Consumer<String> output) {
         this.input = input;
-        this.tracker = tracker;
+        this.store = store;
         this.output = output;
     }
 
     public void init() {
-        MenuTracker menuTracker = new MenuTracker(input, tracker, this, this.output);
+        MenuTracker menuTracker = new MenuTracker(input, store, this, this.output);
         menuTracker.fillActions();
         do {
             menuTracker.show();
@@ -37,7 +37,7 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker(), System.out::println).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new SqlTracker(), System.out::println).init();
     }
 
 }

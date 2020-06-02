@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class TrackerSingleLazyFinalTest {
+public class MemTrackerSingleLazyFinalTest {
 
     @Test
     public void checkSingleton() {

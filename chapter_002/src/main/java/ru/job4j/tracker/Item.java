@@ -1,7 +1,5 @@
 package ru.job4j.tracker;
 
-import java.util.Objects;
-
 public class Item {
     private String id;
     private String name;
@@ -14,6 +12,12 @@ public class Item {
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
+    }
+
+    public Item(String name, String desc, String id) {
+        this.name = name;
+        this.desc = desc;
+        this.id = id;
     }
 
     public String getId() {

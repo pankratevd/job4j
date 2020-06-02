@@ -2,7 +2,8 @@ package ru.job4j.tracker.actions;
 
 import ru.job4j.tracker.Input;
 import ru.job4j.tracker.Item;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.MemTracker;
+import ru.job4j.tracker.Store;
 
 import java.util.function.Consumer;
 
@@ -13,11 +14,11 @@ public class UpdateItem extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, Store store) {
         String id = input.ask("Введите ID");
         String name = input.ask("Введите имя заявки :");
         String desc = input.ask("Введите описание заявки :");
-        if (tracker.replace(id, new Item(name, desc))) {
+        if (store.replace(id, new Item(name, desc, id))) {
             this.output.accept(String.format("Заявка с ID %s обновлена%n", id));
         } else {
             this.output.accept(String.format("Заявка с ID %s не найдена%n", id));

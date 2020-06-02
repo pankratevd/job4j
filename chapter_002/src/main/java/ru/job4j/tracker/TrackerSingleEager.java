@@ -1,10 +1,11 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrackerSingleEager {
     private static final TrackerSingleEager INSTANCE = new TrackerSingleEager();
-    Tracker tracker = new Tracker();
+    Store store = new SqlTracker();
 
     private TrackerSingleEager() {
     }
@@ -14,27 +15,27 @@ public class TrackerSingleEager {
     }
 
     public Item add(Item item) {
-        return tracker.add(item);
+        return store.add(item);
     }
 
     public boolean replace(String id, Item item) {
-        return tracker.replace(id, item);
+        return store.replace(id, item);
     }
 
     public boolean delete(String id) {
-        return tracker.delete(id);
+        return store.delete(id);
     }
 
-    public ArrayList<Item> findAll() {
-        return tracker.findAll();
+    public List<Item> findAll() {
+        return store.findAll();
     }
 
-    public ArrayList<Item> findByName(String key) {
-        return tracker.findByName(key);
+    public List<Item> findByName(String key) {
+        return store.findByName(key);
     }
 
     public Item findById(String id) {
-        return tracker.findById(id);
+        return store.findById(id);
     }
 
 }

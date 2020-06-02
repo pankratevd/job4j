@@ -15,7 +15,7 @@ public class MenuTracker {
     /**
      * @param хранит ссылку на объект .
      */
-    private Tracker tracker;
+    private Store store;
 
     private StartUI ui;
     /**
@@ -28,13 +28,13 @@ public class MenuTracker {
     /**
      * Конструктор.
      *
-     * @param input   объект типа Input
-     * @param tracker объект типа Tracker
+     * @param input  объект типа Input
+     * @param store  объект типа Tracker
      * @param output
      */
-    public MenuTracker(Input input, Tracker tracker, StartUI ui, Consumer<String> output) {
+    public MenuTracker(Input input, Store store, StartUI ui, Consumer<String> output) {
         this.input = input;
-        this.tracker = tracker;
+        this.store = store;
         this.ui = ui;
         this.output = output;
     }
@@ -59,7 +59,7 @@ public class MenuTracker {
      * @param key ключ операции
      */
     public void select(int key) {
-        this.actions.get(key).execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.store);
     }
 
     /**

@@ -3,7 +3,7 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Tracker {
+public class MemTracker {
     private ArrayList<Item> items = new ArrayList<>();
 
     public Item add(Item item) {

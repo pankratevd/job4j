@@ -1,36 +1,34 @@
 package ru.job4j.tracker;
 
-import ru.job4j.tracker.Item;
-import ru.job4j.tracker.Tracker;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public enum TrackerSingleEnum {
     INSTANCE;
-    Tracker tracker = new Tracker();
+    Store store = new SqlTracker();
 
     public Item add(Item item) {
-       return tracker.add(item);
+       return store.add(item);
     }
 
     public boolean replace(String id, Item item) {
-        return tracker.replace(id, item);
+        return store.replace(id, item);
     }
 
     public boolean delete(String id) {
-        return tracker.delete(id);
+        return store.delete(id);
     }
 
-    public ArrayList<Item> findAll() {
-        return tracker.findAll();
+    public List<Item> findAll() {
+        return store.findAll();
     }
 
-    public ArrayList<Item> findByName(String key) {
-        return tracker.findByName(key);
+    public List<Item> findByName(String key) {
+        return store.findByName(key);
     }
 
     public Item findById(String id) {
-        return tracker.findById(id);
+        return store.findById(id);
     }
 
 /*    private String generateId() {
