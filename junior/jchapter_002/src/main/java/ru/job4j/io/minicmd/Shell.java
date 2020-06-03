@@ -4,11 +4,7 @@ import java.util.LinkedList;
 
 public class Shell {
 
-    private final LinkedList<String> list;
-
-    public Shell() {
-        this.list = new LinkedList<>();
-    }
+    private final LinkedList<String> list = new LinkedList<>();
 
     public Shell cd(final String path) {
         boolean fromRoot = false;
