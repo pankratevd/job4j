@@ -20,6 +20,7 @@ public class StartUI {
     public void init() {
         MenuTracker menuTracker = new MenuTracker(input, store, this, this.output);
         menuTracker.fillActions();
+        store.init();
         do {
             menuTracker.show();
             menuTracker.select(input.ask("Выберите меню:", range));
