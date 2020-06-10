@@ -14,18 +14,27 @@ public class SqlTracker implements Store {
 
     private static final Logger LOG = LogManager.getLogger(SqlTracker.class.getName());
 
+    public SqlTracker(Connection cn) {
+        this.cn = cn;
+    }
+
+    public SqlTracker() {
+    }
+
     public void init() {
-        try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            cn = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
+        if (cn == null) {
+            try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
+                Properties config = new Properties();
+                config.load(in);
+                Class.forName(config.getProperty("driver-class-name"));
+                cn = DriverManager.getConnection(
+                        config.getProperty("url"),
+                        config.getProperty("username"),
+                        config.getProperty("password")
+                );
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
         }
     }
 
@@ -39,12 +48,10 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) {
 
-        try (PreparedStatement st = cn.prepareStatement("INSERT INTO task (subject, description, created, state_id, author_id) VALUES (? , ? , ? , ? , ?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement st = cn.prepareStatement("INSERT INTO task (subject, description, created) VALUES (? , ? , ?)", Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, item.getName());
             st.setString(2, item.getDesc());
             st.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
-            st.setInt(4, 1);
-            st.setInt(5, 1);
             st.executeUpdate();
 
             try (ResultSet rs = st.getGeneratedKeys()) {
