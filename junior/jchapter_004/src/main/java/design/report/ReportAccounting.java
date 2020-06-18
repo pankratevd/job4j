@@ -6,12 +6,13 @@ import design.Store;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.function.Predicate;
 
 public class ReportAccounting implements ReportStrategy {
     @Override
     public String execute(Predicate<Employee> filter, Store store) {
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("ru-RU"));
         StringBuilder text = new StringBuilder();
         text.append("Name; Hired; Fired; Salary;");
         text.append(System.lineSeparator());
