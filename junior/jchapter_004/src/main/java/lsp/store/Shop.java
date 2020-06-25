@@ -1,7 +1,35 @@
 package lsp.store;
 
-public class Shop extends Store {
-    public Shop(String name) {
-        super(name);
+import lsp.food.Food;
+
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class Shop implements Store {
+    List<Food> list = new ArrayList<>();
+
+    @Override
+    public boolean accept(Food food) {
+        double selfLife = remainSelfLife(food);
+        return selfLife >= 25 && selfLife < 100;
+    }
+
+    @Override
+    public void add(Food food) {
+        if (remainSelfLife(food) > 75) {
+            food.setPrice(food.getPrice() * food.getDiscount() / 100);
+        }
+        list.add(food);
+    }
+
+    public List<Food> getFood() {
+        return list;
+    }
+
+    private double remainSelfLife(Food food) {
+        Calendar currentDate = Calendar.getInstance();
+        return 100 * (double) (ChronoUnit.DAYS.between(currentDate.toInstant(), food.getCreateDate().toInstant())) / (ChronoUnit.DAYS.between(food.getExpireDate().toInstant(), food.getCreateDate().toInstant()));
     }
 }

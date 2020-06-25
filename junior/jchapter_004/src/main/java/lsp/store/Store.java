@@ -2,26 +2,9 @@ package lsp.store;
 
 import lsp.food.Food;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface Store {
 
-public abstract class Store {
-    protected String name;
-    protected List<Food> list = new ArrayList<>();
+    boolean accept(Food food);
+    void add(Food food);
 
-    public Store(String name) {
-        this.name = name;
-    }
-
-    public void addFood(Food food) {
-        list.add(food);
-    }
-
-    public void removeFood(Food food) {
-        list.remove(food);
-    }
-
-    public List<Food> getFood() {
-        return list;
-    }
 }

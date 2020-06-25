@@ -9,12 +9,14 @@ public abstract class Food {
     private Calendar expireDate;
     private Calendar createDate;
     private double price;
+    private int discount;
 
-    public Food(String name, Calendar expireDate, Calendar createDate, double price) {
+    public Food(String name, Calendar expireDate, Calendar createDate, double price, int discount) {
         this.name = name;
         this.expireDate = expireDate;
         this.createDate = createDate;
         this.price = price;
+        this.discount = discount;
     }
 
     public void setPrice(double price) {
@@ -24,6 +26,11 @@ public abstract class Food {
     public double getPrice() {
         return price;
     }
+
+    public int getDiscount() {
+        return discount;
+    }
+
 
     public Calendar getExpireDate() {
         return expireDate;

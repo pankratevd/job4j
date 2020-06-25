@@ -7,7 +7,6 @@ import lsp.food.Milk;
 import lsp.store.Shop;
 import lsp.store.Trash;
 import lsp.store.Warehouse;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,43 +18,33 @@ import static org.hamcrest.core.Is.is;
 
 public class ControlQualityTest {
 
-    Shop shop = new Shop("shop1");
-    Trash trash = new Trash("trash1");
-    Warehouse warehouse = new Warehouse("warehouse1");
+    Shop shop = new Shop();
+    Trash trash = new Trash();
+    Warehouse warehouse = new Warehouse();
 
-    Calendar currentDate = Calendar.getInstance();
     Calendar milkCreated = Calendar.getInstance();
     Calendar milkExpired = Calendar.getInstance();
     Calendar meatCreated = Calendar.getInstance();
     Calendar meatExpired = Calendar.getInstance();
-    List<MoveStrategy> listStrategy = new ArrayList<>();
-
-    @Before
-    public void init() {
-        currentDate.set(2020, Calendar.AUGUST, 1);
-        listStrategy.add(new MoveToWarehouse(warehouse, 0, 25));
-        listStrategy.add(new MoveToShop(shop, 25, 75));
-        listStrategy.add(new MoveToShop(shop, 75, 100, 50));
-        listStrategy.add(new MoveToTrash(trash, 100, 100));
-    }
 
     @Test
     public void distributeWhenToShopWithoutMeatDiscount() {
-        milkCreated.set(2020, Calendar.JANUARY, 1);
-        milkExpired.set(2021, Calendar.JANUARY, 1);
 
-        meatCreated.set(2020, Calendar.JANUARY, 1);
-        meatExpired.set(2020, Calendar.OCTOBER, 1);
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, 10);
 
-        Food milk = new Milk("milk1", milkExpired, meatCreated, 100);
-        Food meat = new Meat("meat1", meatExpired, meatCreated, 500);
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, 2);
+
+        Food milk = new Milk("milk1", milkExpired, milkCreated, 100, 50);
+        Food meat = new Meat("meat1", meatExpired, meatCreated, 500, 50);
 
         List<Food> list = new ArrayList<>();
         list.add(milk);
         list.add(meat);
         List<Food> expected = List.of(milk, meat);
 
-        ControlQuality controlQuality = new ControlQuality(listStrategy, currentDate);
+        ControlQuality controlQuality = new ControlQuality(List.of(shop, warehouse, trash));
         controlQuality.distribute(list);
 
         assertThat(shop.getFood(), is(expected));
@@ -65,18 +54,18 @@ public class ControlQualityTest {
 
     @Test
     public void whenMilkExpiredThenTrash() {
-        milkCreated.set(2020, Calendar.JANUARY, 1);
-        milkExpired.set(2020, Calendar.JULY, 31);
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, -1);
 
-        meatCreated.set(2020, Calendar.JANUARY, 1);
-        meatExpired.set(2020, Calendar.OCTOBER, 1);
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, 8);
 
-        Food milk = new Milk("milk1", milkExpired, meatCreated, 100);
-        Food meat = new Meat("meat1", meatExpired, meatCreated, 500);
+        Food milk = new Milk("milk1", milkExpired, meatCreated, 100, 50);
+        Food meat = new Meat("meat1", meatExpired, meatCreated, 500, 50);
 
         List<Food> list = List.of(milk, meat);
 
-        ControlQuality controlQuality = new ControlQuality(listStrategy, currentDate);
+        ControlQuality controlQuality = new ControlQuality(List.of(shop, warehouse, trash));
         controlQuality.distribute(list);
         assertThat(shop.getFood(), is(List.of(meat)));
         assertThat(trash.getFood(), is(List.of(milk)));
@@ -84,22 +73,21 @@ public class ControlQualityTest {
 
     @Test
     public void distributeToWarehouse() {
-        milkCreated.set(2020, Calendar.JANUARY, 1);
-        milkExpired.set(2023, Calendar.JULY, 31);
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, 100);
 
-        meatCreated.set(2020, Calendar.JANUARY, 1);
-        meatExpired.set(2023, Calendar.OCTOBER, 1);
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, 100);
 
-        Food milk = new Milk("milk1", milkExpired, meatCreated, 100);
-        Food meat = new Meat("meat1", meatExpired, meatCreated, 500);
+        Food milk = new Milk("milk1", milkExpired, meatCreated, 100, 50);
+        Food meat = new Meat("meat1", meatExpired, meatCreated, 500, 50);
 
         List<Food> list = List.of(milk, meat);
 
-        ControlQuality controlQuality = new ControlQuality(listStrategy, currentDate);
+        ControlQuality controlQuality = new ControlQuality(List.of(shop, warehouse, trash));
         controlQuality.distribute(list);
 
         assertThat(warehouse.getFood(), is(List.of(milk, meat)));
 
     }
-
 }
