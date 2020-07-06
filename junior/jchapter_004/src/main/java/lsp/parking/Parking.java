@@ -14,7 +14,7 @@ public interface Parking {
      *
      * @param auto
      */
-    void takePlace(Auto auto);
+    String takePlace(Auto auto);
 
     /**
      * Release place by Auto
