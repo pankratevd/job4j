@@ -5,5 +5,7 @@ public interface Auto {
     /**
      * @return type of class implements interface
      */
-    String getType();
+    int size();
+
+    String number();
 }
