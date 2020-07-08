@@ -113,7 +113,7 @@ public class CarParkTest {
             parking.takePlace(new Truck(String.valueOf(i), 2));
         }
 
-        String place = parking.takePlace(car1);
+        String place = parking.takePlace(van1);
         String expected = "car: 3, 4";
         assertThat(place, is(expected));
     }
