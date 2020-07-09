@@ -1,6 +1,5 @@
 package lsp.parking;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -12,7 +11,6 @@ public class CarParkTest {
 
     Auto van1 = new Truck("B000BB77RUS", 2);
 
-    @Ignore
     @Test
     public void whenAutoIsAcceptedThenTrue() {
         Parking parking = new CarPark(4, 4);
@@ -21,7 +19,6 @@ public class CarParkTest {
         assertThat(parking.accept(van1), is(true));
     }
 
-    @Ignore
     @Test
     public void whenAutoIsNotAcceptedThenFalse() {
         Parking parking = new CarPark(4, 4);
@@ -35,7 +32,6 @@ public class CarParkTest {
         assertThat(parking.accept(van1), is(false));
     }
 
-    @Ignore
     @Test
     public void whenGetFreeCarFreePlacesThenZero() {
         Parking parking = new CarPark(4, 4);
@@ -48,7 +44,6 @@ public class CarParkTest {
         assertThat(parking.getFreePlaces(car1), is(expected));
     }
 
-    @Ignore
     @Test
     public void whenGetFreeVanFreePlacesThenZero() {
         Parking parking = new CarPark(4, 4);
@@ -61,7 +56,6 @@ public class CarParkTest {
         assertThat(parking.getFreePlaces(van1), is(expected));
     }
 
-    @Ignore
     @Test
     public void whenVanParkingOnCarPlacesThenTrue() {
         Parking parking = new CarPark(4, 4);
@@ -77,7 +71,6 @@ public class CarParkTest {
         assertThat(parking.accept(van1), is(true));
     }
 
-    @Ignore
     @Test
     public void whenCarParkingThenReturnPlaceCarTwo() {
         Parking parking = new CarPark(4, 4);
@@ -89,18 +82,16 @@ public class CarParkTest {
         assertThat(place, is(expected));
     }
 
-    @Ignore
     @Test
     public void whenVanParkingOnVanPlacesThenReturnPlaceVanOne() {
         Parking parking = new CarPark(4, 4);
 
         String place = parking.takePlace(van1);
 
-        String expected = "van: 1";
+        String expected = "truck: 1";
         assertThat(place, is(expected));
     }
 
-    @Ignore
     @Test
     public void whenVanParkingOnCarPlacesThenReturnPlaceCarThreeAndFour() {
         Parking parking = new CarPark(4, 4);
@@ -118,7 +109,6 @@ public class CarParkTest {
         assertThat(place, is(expected));
     }
 
-    @Ignore
     @Test
     public void whenCarReleasePlace() {
         Parking parking = new CarPark(4, 4);
@@ -136,7 +126,6 @@ public class CarParkTest {
         assertThat(parking.getFreePlaces(car1), is(freePlacesAfter));
     }
 
-    @Ignore
     @Test
     public void whenVanReleaseVanPlace() {
         Parking parking = new CarPark(4, 4);
@@ -154,7 +143,6 @@ public class CarParkTest {
         assertThat(parking.getFreePlaces(van1), is(freePlacesAfter));
     }
 
-    @Ignore
     @Test
     public void whenVanReleaseCarPlaces() {
         Parking parking = new CarPark(4, 4);
