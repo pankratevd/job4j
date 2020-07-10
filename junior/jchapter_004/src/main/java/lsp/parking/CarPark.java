@@ -1,5 +1,8 @@
 package lsp.parking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarPark implements Parking {
 
     private final Auto[] carPlaces;
@@ -22,6 +25,24 @@ public class CarPark implements Parking {
             result = true;
         } else if (freeTruck != 0) {
             result = true;
+        } else {
+            for (int i = 0; i < carPlaces.length - 1; i++) {
+                int size = auto.size();
+                if (carPlaces[i] == null) {
+                    int start = i;
+                    boolean isExists = true;
+                    for (int j = ++start; j < size; j++) {
+                        if (i == carPlaces.length || carPlaces[i++] != null) {
+                            isExists = false;
+                            break;
+                        }
+                    }
+                    if (isExists) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
         }
 
         return result;
@@ -29,27 +50,35 @@ public class CarPark implements Parking {
 
     @Override
     public String takePlace(Auto auto) {
-        String possiblePlace = "";
-        if (auto.size() == 1) {
-            for (int i = 0; i < carPlaces.length; i++) {
-                if (carPlaces[i] == null) {
-                    carPlaces[i] = auto;
-                    freeCar--;
-                    possiblePlace = "car: " + (i + 1);
-                    break;
-                }
+        String result = "";
+        if (auto instanceof Car) {
+            int index = findOnePlace(carPlaces);
+            if (index != -1) {
+                carPlaces[index] = auto;
+                freeCar--;
+                result = "car: " + (index + 1);
             }
         } else if (freeTruck != 0) {
-            for (int i = 0; i < truckPlaces.length; i++) {
-                if (truckPlaces[i] == null) {
-                    truckPlaces[i] = auto;
-                    freeTruck--;
-                    possiblePlace = "truck: " + (i + 1);
-                    break;
-                }
+            int index = findOnePlace(truckPlaces);
+            if (index != -1) {
+                truckPlaces[index] = auto;
+                freeTruck--;
+                result = "truck: " + (index + 1);
             }
+        } else {
+            List<Integer> list = findPlaces(carPlaces, auto.size());
+            StringBuilder sb = new StringBuilder();
+            sb.append("car:");
+            for (Integer i : list) {
+                carPlaces[i] = auto;
+                freeCar--;
+                sb.append(" ")
+                        .append(i + 1)
+                        .append(",");
+            }
+            result = sb.toString().substring(0, sb.length() - 1);
         }
-        return possiblePlace;
+        return result;
     }
 
     @Override
@@ -63,15 +92,28 @@ public class CarPark implements Parking {
                 }
             }
         } else {
+            boolean isExists = false;
             for (int i = 0; i < truckPlaces.length; i++) {
                 if (truckPlaces[i].equals(auto)) {
                     truckPlaces[i] = null;
                     freeTruck++;
+                    isExists = true;
                     break;
                 }
             }
+            if (!isExists) {
+                int count = 0;
+                for (int i = 0; i < carPlaces.length; i++) {
+                    if (carPlaces[i].equals(auto)) {
+                        carPlaces[i] = null;
+                        freeCar++;
+                        if (++count == auto.size()) {
+                            break;
+                        }
+                    }
+                }
+            }
         }
-
     }
 
     @Override
@@ -79,18 +121,39 @@ public class CarPark implements Parking {
         return auto.size() == 1 ? freeCar : freeTruck;
     }
 
-    private boolean checkDoublePlaces() {
-        boolean result = false;
-
-        for (int i = 0; i < carPlaces.length - 1; i++) {
-            if (carPlaces[i] == null) {
-                if (carPlaces[i++] == null) {
-                    result = true;
-                }
+    private int findOnePlace(Auto[] arr) {
+        int result = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == null) {
+                result = i;
+                break;
             }
         }
-
         return result;
     }
 
+    private List<Integer> findPlaces(Auto[] arr, int number) {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == null) {
+                int start = i;
+                int end = i + number;
+                boolean isExists = true;
+                for (int j = i++; j < end; j++) {
+                    if (arr[j] != null) {
+                        isExists = false;
+                        break;
+                    }
+                }
+                if (isExists) {
+                    for (int j = start; j < end; j++) {
+                        result.add(j);
+                    }
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 }
