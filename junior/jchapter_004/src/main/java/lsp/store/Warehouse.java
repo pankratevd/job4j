@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Warehouse implements Store {
+public class Warehouse implements StoreExtended {
     List<Food> list = new ArrayList<>();
 
     @Override
@@ -20,8 +20,14 @@ public class Warehouse implements Store {
     list.add(food);
     }
 
+    @Override
     public List<Food> getFood() {
         return list;
+    }
+
+    @Override
+    public boolean remove(Food food) {
+        return this.list.remove(food);
     }
 
     private double remainSelfLife(Food food) {

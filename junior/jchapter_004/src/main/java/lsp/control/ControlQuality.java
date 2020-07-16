@@ -2,17 +2,19 @@ package lsp.control;
 
 import lsp.food.Food;
 import lsp.store.Store;
+import lsp.store.StoreExtended;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class for distribute input List of Foods according to Strategy of distribution.
  */
 public class ControlQuality {
-    private final List<Store> stores;
+    private final List<StoreExtended> stores;
 
 
-    public ControlQuality(List<Store> stores) {
+    public ControlQuality(List<StoreExtended> stores) {
         this.stores = stores;
     }
 
@@ -20,6 +22,19 @@ public class ControlQuality {
         for (Food f : foods) {
             moveToStore(f);
         }
+    }
+
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+        for (StoreExtended store : stores) {
+            List<Food> getFoods = new ArrayList<>();
+            getFoods.addAll(store.getFood());
+            foods.addAll(getFoods);
+            for (Food f : getFoods) {
+                store.remove(f);
+            }
+        }
+        this.distribute(foods);
     }
 
     private void moveToStore(Food food) {

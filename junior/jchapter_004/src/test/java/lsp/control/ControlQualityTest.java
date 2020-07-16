@@ -90,4 +90,72 @@ public class ControlQualityTest {
         assertThat(warehouse.getFood(), is(List.of(milk, meat)));
 
     }
+
+    @Test
+    public void resort() {
+
+        Calendar milkCreated = Calendar.getInstance();
+        Calendar milkExpired = Calendar.getInstance();
+        Calendar meatCreated = Calendar.getInstance();
+        Calendar meatExpired = Calendar.getInstance();
+
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, 100);
+
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, 100);
+
+        Food milkWH = new Milk("milkWh", milkExpired, meatCreated, 100, 50);
+        Food meatWH = new Meat("meatWh", meatExpired, meatCreated, 500, 50);
+
+        shop.add(milkWH);
+        shop.add(meatWH);
+
+        milkCreated = Calendar.getInstance();
+        milkExpired = Calendar.getInstance();
+        meatCreated = Calendar.getInstance();
+        meatExpired = Calendar.getInstance();
+
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, -1);
+
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, -1);
+
+        Food milkTR = new Milk("milkTR", milkExpired, meatCreated, 100, 50);
+        Food meatTR = new Meat("meatTR", meatExpired, meatCreated, 500, 50);
+
+        warehouse.add(milkTR);
+        warehouse.add(meatTR);
+
+
+        milkCreated = Calendar.getInstance();
+        milkExpired = Calendar.getInstance();
+        meatCreated = Calendar.getInstance();
+        meatExpired = Calendar.getInstance();
+
+        milkCreated.add(Calendar.DATE, -10);
+        milkExpired.add(Calendar.DATE, 2);
+
+        meatCreated.add(Calendar.DATE, -10);
+        meatExpired.add(Calendar.DATE, 2);
+
+        Food milkSH = new Milk("milkSH", milkExpired, milkCreated, 100, 50);
+        Food meatSH = new Meat("meatSH", meatExpired, meatCreated, 500, 50);
+
+        trash.add(milkSH);
+        trash.add(meatSH);
+
+        assertThat(shop.getFood(), is(List.of(milkWH, meatWH)));
+        assertThat(warehouse.getFood(), is(List.of(milkTR, meatTR)));
+        assertThat(trash.getFood(), is(List.of(milkSH, meatSH)));
+
+        ControlQuality controlQuality = new ControlQuality(List.of(shop, warehouse, trash));
+        controlQuality.resort();
+
+        assertThat(warehouse.getFood(), is(List.of(milkWH, meatWH)));
+        assertThat(shop.getFood(), is(List.of(milkSH, meatSH)));
+        assertThat(trash.getFood(), is(List.of(milkTR, meatTR)));
+
+    }
 }
