@@ -4,6 +4,7 @@ import design.report.ReportAccounting;
 import design.report.ReportCSV;
 import design.report.ReportHR;
 import design.report.ReportHTML;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -67,6 +68,7 @@ public class ReportEngineTest {
         assertThat(reportEngine.generate(em -> true, new ReportCSV()), is(expect.toString()));
     }
 
+    @Ignore
     @Test
     public void whenHTMLReport() {
         MemStore store = new MemStore();
