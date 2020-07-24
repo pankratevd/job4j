@@ -49,12 +49,11 @@ INSERT INTO meeting_users_userstatus (meeting_id, user_id, userstatus_id) VALUES
 
 -- Список всех встреч и количество подтвердивших участников.
 
-select m.name, count(mus.user_id) 
+select m.name, sum(case when us.name = 'approved' then 1 else 0 end)
 from meeting as m
-join meeting_users_userstatus as mus ON m.id = mus.meeting_id
-join userstatus as us ON mus.userstatus_id = us.id
-WHERE us.name = 'approved'
-GROUP BY (m.name);
+left join meeting_users_userstatus as mus ON m.id = mus.meeting_id
+left join userstatus as us ON mus.userstatus_id = us.id
+GROUP BY (m.name)
 
 
 
