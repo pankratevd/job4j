@@ -3,78 +3,45 @@ package concurrent;
 import java.io.*;
 
 public class ParseFile {
-    private volatile File file;
-    private volatile boolean flag0 = false;
-    private volatile boolean flag1 = false;
+    private File file;
 
     public synchronized void setFile(File f) {
-        while (flag0 || flag1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
         file = f;
     }
 
-    public File getFile() {
+    public synchronized File getFile() {
         return file;
     }
 
-    public String getContent() throws IOException {
-        while (flag0) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+    public synchronized String getContent() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            int data = br.read();
+            while (data != -1) {
+                sb.append((char) data);
+                data = br.read();
             }
         }
-        flag0 = true;
-        String result = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            result = br.readLine();
-        }
-        flag0 = false;
-        return result;
+        return sb.toString();
     }
 
     public synchronized String getContentWithoutUnicode() throws IOException {
-        while (flag1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        flag1 = true;
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            int data;
-            while ((data = br.read()) > 0) {
+            int data = br.read();
+            while (data != -1) {
                 if (data < 0x80) {
                     sb.append((char) data);
                 }
+                data = br.read();
             }
         }
-        flag1 = false;
         return sb.toString();
     }
 
     public synchronized void saveContent(String content) throws IOException {
-        while (flag0 || flag1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write(content);
         }
-        flag0 = true;
-        flag1 = true;
-        try (PrintWriter pw = new PrintWriter(file)) {
-            pw.print(content);
-        }
-        flag0 = false;
-        flag1 = false;
     }
 }
