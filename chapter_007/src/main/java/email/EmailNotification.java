@@ -35,5 +35,6 @@ public class EmailNotification {
     private String getBody(User user) {
         return "Add a new event to "
                 + user.getEmail();
+
     }
 }
