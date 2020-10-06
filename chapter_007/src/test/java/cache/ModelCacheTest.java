@@ -1,10 +1,12 @@
 package cache;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class ModelCacheTest {
     @Test
@@ -61,8 +63,8 @@ public class ModelCacheTest {
         modelCache.add(b2);
         modelCache.add(b3);
 
-        Base newB1 = new Base(1, "2");
-        newB1.setVersion(1);
-        modelCache.update(newB1);
+        modelCache.update(b1);
+        modelCache.update(b1);
+        assertThat(modelCache.getModel(1).getVersion(), Matchers.is(2));
     }
 }

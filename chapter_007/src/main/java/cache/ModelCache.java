@@ -12,9 +12,10 @@ public class ModelCache {
 
     public void update(Base model) {
         map.computeIfPresent(model.getId(), (k, v) -> {
-            if (model.getVersion() != map.get(k).getVersion() + 1) {
+            if (model.getVersion() != map.get(k).getVersion()) {
                 throw new OptimisticException("Old version: " + map.get(k).getVersion() + " New version: " + model.getVersion());
             }
+            model.setVersion(model.getVersion() + 1);
             return model;
         });
     }
