@@ -11,9 +11,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class HandlerPost {
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> queue;
+    private String path;
 
-    public HandlerPost(ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> queue) {
+    public HandlerPost(ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> queue, String path) {
         this.queue = queue;
+        this.path = path;
     }
 
     protected void handle(int length, BufferedReader in, PrintWriter out) throws IOException {
@@ -31,7 +33,7 @@ public class HandlerPost {
     }
 
     private void addMessage(Map<String, String> map) {
-        String queueName = map.get("queue");
+        String queueName = map.get(path.replaceAll("/",""));
         String value = map.get("text");
         if (queue.containsKey(queueName)) {
             queue.get(queueName).add(value);

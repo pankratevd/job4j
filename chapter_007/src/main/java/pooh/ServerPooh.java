@@ -23,11 +23,7 @@ public class ServerPooh {
             Socket s = serverSocket.accept();
 
             pool.submit(() -> {
-                try {
-                    new Handler(queue).process(s);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                new HandlerHead(queue).process(s);
             });
 
         }

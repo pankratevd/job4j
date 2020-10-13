@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Client1 {
     public void start() throws IOException {
-        URL url = new URL("http://localhost:5555/");
+        URL url = new URL("http://localhost:5555/queue");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -38,7 +38,10 @@ public class Client1 {
 
     public static void main(String[] args) throws IOException {
         new Client1().start();
-       for (int i = 0; i < 10000; i++) {
+        new Client1().start();
+        new Client1().start();
+        new Client2().start();
+     for (int i = 0; i < 10000; i++) {
             new Thread(() -> {
                 try {
                     new Client1().start();

@@ -10,7 +10,7 @@ public class Client2 {
 
     public void start() throws IOException {
 
-        URL url = new URL("http://localhost:5555/");
+        URL url = new URL("http://localhost:5555/queue/weather");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -28,7 +28,11 @@ public class Client2 {
 
             System.out.println(response.toString());
         }
-        System.out.println(connection.getResponseCode());
+        //System.out.println(connection.getResponseCode());
         connection.disconnect();
+    }
+
+    public static void main(String[] args) throws IOException {
+        new Client2().start();
     }
 }
