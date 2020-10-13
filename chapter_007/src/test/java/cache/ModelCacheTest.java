@@ -1,12 +1,13 @@
 package cache;
 
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 public class ModelCacheTest {
     @Test

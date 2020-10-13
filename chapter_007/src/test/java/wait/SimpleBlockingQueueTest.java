@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class SimpleBlockingQueueTest {
@@ -32,7 +33,7 @@ public class SimpleBlockingQueueTest {
         consumer.start();
         producer.join();
         consumer.join();
-        Assert.assertThat(set.size(), is(0));
+        assertThat(set.size(), is(0));
     }
 
 }

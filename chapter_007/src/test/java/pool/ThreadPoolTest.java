@@ -1,5 +1,6 @@
 package pool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -10,7 +11,7 @@ public class ThreadPoolTest {
 
     volatile AtomicInteger count = new AtomicInteger();
     volatile Set<Integer> set = new HashSet<>();
-
+    @Ignore
     @Test
     public void test() throws InterruptedException {
         ThreadPool threadPool = new ThreadPool();
@@ -24,7 +25,5 @@ public class ThreadPoolTest {
             ));
 
         }
-        System.out.println(set.size());
-        System.out.println(set);
     }
 }

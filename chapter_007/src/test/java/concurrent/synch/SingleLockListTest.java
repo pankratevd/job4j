@@ -1,13 +1,14 @@
 package concurrent.synch;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class SingleLockListTest {
 
