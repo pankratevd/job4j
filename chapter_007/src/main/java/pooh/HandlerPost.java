@@ -33,7 +33,7 @@ public class HandlerPost {
     }
 
     private void addMessage(Map<String, String> map) {
-        String queueName = map.get(path.replaceAll("/",""));
+        String queueName = map.get(path.replaceAll("/", ""));
         String value = map.get("text");
         if (queue.containsKey(queueName)) {
             queue.get(queueName).add(value);

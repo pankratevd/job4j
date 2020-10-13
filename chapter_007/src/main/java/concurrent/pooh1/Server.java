@@ -33,20 +33,21 @@ public class Server {
 
     private void handler(Socket s) throws IOException {
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            BufferedWriter out= new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));) {
             String line = in.readLine();
             int length = 0;
             if (line.contains("POST")) {
-                if (line.contains("queue/"))
-                while (!line.isEmpty()) {
-                    if (line.contains("Length")) {
-                        length = Integer.parseInt(line.split(":")[1].trim());
-                        line=in.readLine();
+                if (line.contains("queue/")) {
+                    while (!line.isEmpty()) {
+                        if (line.contains("Length")) {
+                            length = Integer.parseInt(line.split(":")[1].trim());
+                            line = in.readLine();
+                        }
                     }
-                }
-                for (int i = 0; i < length; i++) {
-                    sb.append(in.read());
+                    for (int i = 0; i < length; i++) {
+                        sb.append(in.read());
+                    }
                 }
                 String[] arr = new Gson().fromJson(sb.toString(), String.class).split(",");
 

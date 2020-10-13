@@ -16,8 +16,7 @@ public class HandlerHead {
     }
 
     void process(Socket s) {
-        try (s;
-             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
              PrintWriter out = new PrintWriter(s.getOutputStream())
         ) {
             String method = "";
@@ -34,7 +33,7 @@ public class HandlerHead {
                 }
                 line = in.readLine();
             }
-            System.out.println("Method: " + method +" path: " + path);
+            System.out.println("Method: " + method + " path: " + path);
             switch (method.toUpperCase()) {
                 case "POST":
                     new HandlerPost(queue, path).handle(length, in, out);
