@@ -33,14 +33,12 @@ public class HandlerHead {
                 }
                 line = in.readLine();
             }
-            System.out.println("Method: " + method + " path: " + path);
             switch (method.toUpperCase()) {
                 case "POST":
                     new HandlerPost(queue, path).handle(length, in, out);
                     break;
                 case "GET":
-                    System.out.println("Path in GET :" + path);
-                    new HandlerGet(queue, path).handle(in, out);
+                    new HandlerGet(queue, path).handle(out);
                     break;
                 default:
                     s.getOutputStream().write("HTTP/1.1 400 Bad Request\r\n".getBytes());

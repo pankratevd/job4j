@@ -14,8 +14,6 @@ public class ServerPooh {
     ExecutorService pool = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors()
     );
-    volatile AtomicInteger count = new AtomicInteger();
-
 
     public void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket(5555);
@@ -32,6 +30,5 @@ public class ServerPooh {
     public static void main(String[] args) throws IOException {
         ServerPooh serverPooh = new ServerPooh();
         serverPooh.start();
-
     }
 }
